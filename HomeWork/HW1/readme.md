@@ -8,9 +8,9 @@
   * 2.2 Настройте IP-адрес для ПК;
 
   **3. Часть 3. Проверка сетевых подключений;**
-  * Отобразите конфигурацию устройства.
-  * Протестируйте сквозное соединение, отправив эхо-запрос.
-  * Протестируйте возможности удаленного управления с помощью Telnet.
+  * 3.1 Отобразите конфигурацию устройства.
+  * 3.2 Протестируйте сквозное соединение, отправив эхо-запрос.
+  * 3.3 Протестируйте возможности удаленного управления с помощью Telnet.
 ###  Решение:
 **1. Часть 1.  Проверка конфигурации коммутатора по умолчанию**
 
@@ -227,7 +227,120 @@ SW1(config-line)#login
   2.2 Настройка IP-адрес для ПК
 
   2.1 Зададим сетевые настройки PC:
-  
+  ![](./jpg/lab1-4.PNG)
+
+  Необходимые сетевые настройки PC сделаны.
+
+   **3. Часть 3. Проверка сетевых подключений;**
+  * 3.1 Отобразим конфигурацию устройства:
+    Введём комманду "sh r" из под привелегированного режима:
+
+```
+SW1#sh r
+Building configuration...
+
+Current configuration : 1388 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname SW1
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+no ip domain-lookup
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.10.3 255.255.255.0
+!
+banner motd ^C
+********************************************
+###########DO NOT ENTRY#####################
+********************************************^C
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+ login
+!
+line vty 0 4
+ password 7 0822455D0A16
+ login
+ transport input telnet
+line vty 5 15
+ login
+!
+!
+!
+!
+end
+```
+Конфигурация отображена.
+  * 3.2 Протестируем сквозное соединение, отправив эхо-запрос.
+    
+  * 3.3 Протестируйте возможности удаленного управления с помощью Telnet.
   
 
 
