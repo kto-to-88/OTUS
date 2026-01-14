@@ -142,17 +142,121 @@ end
 
 *Назначьте имя хоста и настройте основные параметры устройства.*
 
-Представим настройки PC-A и PC-B:
+Выведем конфигурацию S1 
 
-PC-A:
+Базовые настройки доступа аналогичны R1
 
-![](./jpg/3.PNG)
+p.s. - везде задан пароль cisco
 
-PC-B:
+```
+S1>en
+Password: 
+S1#sh run
+Building configuration...
 
-![](./jpg/4.PNG)
+Current configuration : 1410 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname S1
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ ipv6 address FE80::B link-local
+ ipv6 address 2001:DB8:ACAD:1::B/64
+!
+banner motd ^C
+*******************************************
+###############STOP!!!#####################
+*******************************************
 
-
+^C
+!
+!
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+!
+line vty 0 4
+ password 7 0822455D0A16
+ login
+ transport input telnet
+line vty 5 15
+ login
+!
+!
+!
+!
+end
+```
 
 ### Часть 2. Ручная настройка IPv6-адресов
 
@@ -207,6 +311,8 @@ FF02::2 - группа многоадресной рассылки для все
 Назначен ли индивидуальный IPv6-адрес сетевой интерфейсной карте (NIC) на PC-B?
 
 *b.	Активируйте IPv6-маршрутизацию на R1 с помощью команды IPv6 unicast-routing.*
+
+
 
 Это позволит компьютерам получать IP-адреса и данные шлюза по умолчанию с помощью функции SLAAC (Stateless Address Autoconfiguration (Автоконфигурация без сохранения состояния адреса)).
 
