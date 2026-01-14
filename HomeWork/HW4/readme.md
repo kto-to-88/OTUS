@@ -21,15 +21,128 @@
 
 ### Часть 1.
 ### Настройка топологии и конфигурация основных параметров маршрутизатора и коммутатора
-После подключения сети, инициализации и перезагрузки маршрутизатора и коммутатора выполните следующие действия:
+*После подключения сети, инициализации и перезагрузки маршрутизатора и коммутатора выполните следующие действия:*
 
 ### Шаг 1. Настройте маршрутизатор.
 
-Назначьте имя хоста и настройте основные параметры устройства.
+*Назначьте имя хоста и настройте основные параметры устройства.*
+
+Выведем конфигурацию R1 и добавим пояснения:
+
+```
+
+************************************************
+##############STOP!!!###########################
+************************************************
+
+
+User Access Verification
+
+Password: 
+
+R1>en
+Password: 
+R1#sh run
+Building configuration...
+
+Current configuration : 990 bytes
+!
+version 15.4
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname R1 - задано имя хоста
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0 - зашифрованый пароль для входа в привелигерованный режим
+!
+!
+!
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+!
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:A::1/64
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:1::1/64
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C
+************************************************
+##############STOP!!!###########################
+************************************************
+^C
+!
+!
+!
+!
+!
+line con 0 - настройка консольного подключения
+ password 7 0822455D0A16
+ login
+!
+line aux 0
+!
+line vty 0 4 - настройка подключения по telnet
+ password 7 0822455D0A16
+ login
+ transport input telnet
+!
+!
+!
+end
+```
 
 ### Шаг 2. Настройте коммутатор.
 
-Назначьте имя хоста и настройте основные параметры устройства.
+*Назначьте имя хоста и настройте основные параметры устройства.*
+
+Представим настройки PC-A и PC-B:
+
+
 
 ### Часть 2. Ручная настройка IPv6-адресов
 
