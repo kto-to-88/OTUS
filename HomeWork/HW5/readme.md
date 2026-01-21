@@ -199,15 +199,143 @@ ping успешен.
 ### a.	Задайте имя устройства.
 ### b.	Задайте домен для устройства.
 ### Шаг 2. Создайте ключ шифрования с указанием его длины.
+
+```
+R1(config)#crypto key generate rsa general-keys modulus 1024
+
+``` 
+
 ### Шаг 3. Создайте имя пользователя в локальной базе учетных записей.
 Настройте имя пользователя, используя admin в качестве имени пользователя и cisco в качестве пароля.
+
 ### Шаг 4. Активируйте протокол SSH на линиях VTY.
 a.	Активируйте протокол SSHv2 на входящих линиях VTY с помощью команды transport input.
 
 b.	Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
 
 ### Шаг 5. Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+#### Далее представлена конфигурация маршрутизатора R1 с пояснениями, согласно задания.
+```
+###########################
+#########STOP!!!###########
+###########################
+
+
+R1>en
+Password: 
+R1#conf t 
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#exi
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#sh run
+Building configuration...
+
+Current configuration : 1028 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption 
+!
+hostname R1 - 1a.	Зададим имя устройства.
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0 
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0 - Шаг 3. Создадим имя пользователя в локальной базе учетных записей.
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524UK5O-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup 
+ip domain-name otus.ru - 1b.	Зададим домен для устройства.
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/1 
+ ip address 192.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C 
+###########################
+#########STOP!!!###########
+###########################
+^C
+!
+!
+!
+!
+!
+line con 0
+ password 7 0822455D0A16 
+!
+line aux 0
+!
+line vty 0 4 
+ login local - 4b.	Изменим способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
+ transport input ssh - 4a. Активируем протокол SSH на линиях VTY.
+!
+!
+!
+end
+!
+R1#copy running-config startup-config - Шаг 5. Сохраним текущую конфигурацию в файл загрузочной конфигурации.
+```
+
 ### Шаг 6. Установите соединение с маршрутизатором по протоколу SSH.
+
+
 
 a.	Запустите Tera Term с PC-A.
 
