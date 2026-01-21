@@ -63,7 +63,7 @@ j.	Сохраните текущую конфигурацию в файл заг
 
 R1>en
 Password: 
-R1#conf t - b. Войдём в режим конфигурации.
+R1#conf t - b. Войдём в режим глобальной конфигурации.
 Enter configuration commands, one per line.  End with CNTL/Z.
 R1(config)#exi
 R1#
