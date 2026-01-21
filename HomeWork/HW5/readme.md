@@ -346,3 +346,4 @@ b.	Установите SSH-подключение к R1. Use the username admin
 
 
 
+
