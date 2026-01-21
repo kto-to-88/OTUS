@@ -341,6 +341,187 @@ a.	Запустите Tera Term с PC-A.
 
 b.	Установите SSH-подключение к R1. Use the username admin and password cisco. У вас должно получиться установить SSH-подключение к R1.
 
+![](./jpg/4.PNG)
+
+
+SSH-подключение к R1 установлено.
+
+### Часть 3. Настройка коммутатора для доступа по протоколу SSH
+
+В части 3 вам предстоит настроить коммутатор для приема подключений по протоколу SSH, а затем установить SSH-подключение с помощью программы Tera Term.
+
+### Шаг 1. Настройте основные параметры коммутатора.
+
+Откройте окно конфигурации
+
+a.	Подключитесь к коммутатору с помощью консольного подключения и активируйте привилегированный режим EXEC.
+
+b.	Войдите в режим конфигурации.
+
+c.	Отключите поиск DNS, чтобы предотвратить попытки маршрутизатора неверно преобразовывать введенные команды таким образом, как будто они являются именами узлов.
+
+d.	Назначьте cisco в качестве зашифрованного пароля привилегированного режима EXEC.
+
+e.	Назначьте cisco в качестве пароля консоли и включите вход в систему по паролю.
+
+f.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+
+g.	Зашифруйте открытые пароли.
+
+h.	Создайте баннер, который предупреждает о запрете несанкционированного доступа.
+
+i.	Настройте и активируйте на коммутаторе интерфейс VLAN 1, используя информацию, приведенную в таблице адресации.
+
+j.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.
+
+#### Далее представлена конфигурация маршрутизатора R1 с пояснениями, согласно задания.
+
+```
+################################################
+###############STOP!!!##########################
+################################################
+
+
+User Access Verification
+
+Username: 
+Username: admin
+Password: 
+
+S1>
+S1>
+S1>en
+Password: 
+S1#sh run
+Building configuration...
+
+Current configuration : 1514 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption - g.	Зашифруйте открытые пароли.
+!
+hostname S1
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0 - d.	Назначим cisco в качестве зашифрованного пароля привилегированного режима EXEC
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup - c.	Отключим поиск DNS
+ip domain-name otus.ru
+!
+username admin secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0 - f.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1 - i.	Настроим и активируем на коммутаторе интерфейс VLAN 1, используя информацию, приведенную в таблице адресации.
+ ip address 192.168.1.11 255.255.255.0
+!
+ip default-gateway 192.168.1.1
+!
+banner motd ^C - h.	Создадим баннер, который предупреждает о запрете несанкционированного доступа.
+################################################
+###############STOP!!!##########################
+################################################
+^C
+!
+!
+!
+line con 0 - e.	Назначим cisco в качестве пароля консоли и включите вход в систему по паролю.
+ password 7 0822455D0A16
+ login local
+!
+line vty 0 4 - f.	Назначьте cisco в качестве пароля VTY и включите вход в систему по паролю.
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+!
+!
+!
+end
+!
+S1#copy running-config startup-configj.	Сохраним текущую конфигурацию в файл загрузочной конфигурации.
+```
+
+### Шаг 2. Настройте коммутатор для соединения по протоколу SSH.
+
+Для настройки протокола SSH на коммутаторе используйте те же команды, которые применялись для аналогичной настройки маршрутизатора в части 2.
+
+a.	Настройте имя устройства, как указано в таблице адресации.
+
+b.	Задайте домен для устройства.
+
+c.	Создайте ключ шифрования с указанием его длины.
+
+d.	Создайте имя пользователя в локальной базе учетных записей.
+
+e.	Активируйте протоколы Telnet и SSH на линиях VTY.
+
+f.	Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
+
+### Шаг 3. Установите соединение с коммутатором по протоколу SSH.
+Запустите программу Tera Term на PC-A, затем установите подключение по протоколу SSH к интерфейсу SVI коммутатора S1.
+Вопрос:
+Удалось ли вам установить SSH-соединение с коммутатором?
 
 
 
