@@ -512,16 +512,148 @@ b.	Задайте домен для устройства.
 
 c.	Создайте ключ шифрования с указанием его длины.
 
+```
+R1(config)#crypto key generate rsa general-keys modulus 1024
+
+``` 
+
 d.	Создайте имя пользователя в локальной базе учетных записей.
 
 e.	Активируйте протоколы Telnet и SSH на линиях VTY.
 
 f.	Измените способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей.
 
+```
+################################################
+###############STOP!!!##########################
+################################################
+
+
+User Access Verification
+
+Username: 
+Username: admin
+Password: 
+
+S1>
+S1>
+S1>en
+Password: 
+S1#sh run
+Building configuration...
+
+Current configuration : 1514 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname S1 - a.	Настроим имя устройства, как указано в таблице адресации.
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name otus.ru - b.	Зададим домен для устройства.
+!
+username admin secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0 - d.	Создайте имя пользователя в локальной базе учетных записей.
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+!
+interface FastEthernet0/4
+!
+interface FastEthernet0/5
+!
+interface FastEthernet0/6
+!
+interface FastEthernet0/7
+!
+interface FastEthernet0/8
+!
+interface FastEthernet0/9
+!
+interface FastEthernet0/10
+!
+interface FastEthernet0/11
+!
+interface FastEthernet0/12
+!
+interface FastEthernet0/13
+!
+interface FastEthernet0/14
+!
+interface FastEthernet0/15
+!
+interface FastEthernet0/16
+!
+interface FastEthernet0/17
+!
+interface FastEthernet0/18
+!
+interface FastEthernet0/19
+!
+interface FastEthernet0/20
+!
+interface FastEthernet0/21
+!
+interface FastEthernet0/22
+!
+interface FastEthernet0/23
+!
+interface FastEthernet0/24
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ ip address 192.168.1.11 255.255.255.0
+!
+ip default-gateway 192.168.1.1
+!
+banner motd ^C
+################################################
+###############STOP!!!##########################
+################################################
+^C
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+ login local
+!
+line vty 0 4
+ login local - f.	Изменим способ входа в систему таким образом, чтобы использовалась проверка пользователей по локальной базе учетных записей
+ transport input ssh - e.	Активируем протокол SSH на линиях VTY.
+line vty 5 15
+ login
+!
+!
+!
+!
+end
+```
+
 ### Шаг 3. Установите соединение с коммутатором по протоколу SSH.
+
 Запустите программу Tera Term на PC-A, затем установите подключение по протоколу SSH к интерфейсу SVI коммутатора S1.
+
 Вопрос:
 Удалось ли вам установить SSH-соединение с коммутатором?
+
 
 
 
