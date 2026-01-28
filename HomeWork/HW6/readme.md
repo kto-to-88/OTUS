@@ -475,7 +475,482 @@ c.	Отправьте команду ping с компьютера PC-A на ко
 
 Отобразится шлюз PC-B и трассируемый адрес.
 
+**Далее представлена конфигурация всех устройств.**
 
+```
+!!!!!!!!!!!!!!!!!STOP!!!!!!!!!!!!!!!!!!
+
+
+
+User Access Verification
+
+Password: 
+
+R1>en
+Password: 
+R1#sh run
+Building configuration...
+
+Current configuration : 1367 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname R1
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+clock timezone msk 3
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+license udi pid CISCO2911/K9 sn FTX15241S71-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name otus.ru
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface GigabitEthernet0/1.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+!
+interface GigabitEthernet0/1.30
+ encapsulation dot1Q 30
+ ip address 192.168.30.1 255.255.255.0
+!
+interface GigabitEthernet0/1.1000
+ encapsulation dot1Q 1000 native
+ no ip address
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C
+!!!!!!!!!!!!!!!!!STOP!!!!!!!!!!!!!!!!!!
+
+^C
+!
+!
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+ login
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+!
+end
+
+```
+
+```
+
+!!!!!!!!!!!!!!!!!STOP!!!!!!!!!!!!!!!!!
+
+User Access Verification
+
+Password: 
+Password: 
+
+S1>en
+Password: 
+S1#sh run
+Building configuration...
+
+Current configuration : 2670 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname S1
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name otus.ru
+!
+username admin secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 10,20,30,1000
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface FastEthernet0/2
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/3
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/4
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/5
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 10,20,30,1000
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface FastEthernet0/6
+ switchport access vlan 20
+ switchport mode access
+!
+interface FastEthernet0/7
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/8
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/9
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/10
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/11
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/12
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/13
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/14
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/15
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/16
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/17
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/18
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/19
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/20
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/21
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/22
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/23
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/24
+ description VLAN Parking_Lot
+ shutdown
+!
+interface GigabitEthernet0/1
+ description VLAN Parking_Lot
+ shutdown
+!
+interface GigabitEthernet0/2
+ description VLAN Parking_Lot
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ ip address 192.168.10.11 255.255.255.0
+!
+ip default-gateway 192.168.10.1
+!
+banner motd ^C
+!!!!!!!!!!!!!!!!!STOP!!!!!!!!!!!!!!!!!^C
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+ login
+!
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+!
+!
+!
+end
+```
+
+```
+!!!!!!!!!!!!!!!!!!!STOP!!!!!!!!!!!!!!!!!!
+
+User Access Verification
+
+Password: 
+Password: 
+
+S2>en
+Password: 
+S2#sh run
+Building configuration...
+
+Current configuration : 2406 bytes
+!
+version 15.0
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname S2
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name otus.ru
+!
+username admin secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+interface FastEthernet0/1
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 10,20,30,1000
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface FastEthernet0/2
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/3
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/4
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/5
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/6
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/7
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/8
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/9
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/10
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/11
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/12
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/13
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/14
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/15
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/16
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/17
+ description VLAN Parking_Lot
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 30
+ switchport mode access
+!
+interface FastEthernet0/19
+ shutdown
+!
+interface FastEthernet0/20
+ shutdown
+!
+interface FastEthernet0/21
+ shutdown
+!
+interface FastEthernet0/22
+ shutdown
+!
+interface FastEthernet0/23
+ shutdown
+!
+interface FastEthernet0/24
+ shutdown
+!
+interface GigabitEthernet0/1
+ description VLAN Parking_Lot
+ shutdown
+!
+interface GigabitEthernet0/2
+ description VLAN Parking_Lot
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ ip address 192.168.10.12 255.255.255.0
+!
+ip default-gateway 192.168.10.1
+!
+banner motd ^C
+!!!!!!!!!!!!!!!!!!!STOP!!!!!!!!!!!!!!!!!!^C
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+ login
+!
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login
+!
+!
+!
+!
+end
+```
 
 
 
