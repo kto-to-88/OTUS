@@ -178,7 +178,7 @@ Fa0/4            Root FWD 19        128.4    P2p
 Fa0/2            Altn BLK 19        128.2    P2p
 ```
 
-
+![](./jpg/6.PNG)
 
 
 
