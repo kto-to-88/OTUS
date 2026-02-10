@@ -86,3 +86,118 @@ copy running-config startup-config
 
 ![](./jpg/5.PNG)
 
+### Часть 2:	Определение корневого моста
+
+#### Шаг 1:	Отключите все порты на коммутаторах.
+```
+conf t
+interface range fastEthernet 0/1-4
+shutdown 
+```
+И так для каждого коммутатора
+
+#### Шаг 2:	Настройте подключенные порты в качестве транковых.
+```
+conf t
+interface range fastEthernet 0/1-4
+switchport mode trunk
+```
+И так для каждого коммутатора
+
+#### Шаг 3:	Включите порты F0/2 и F0/4 на всех коммутаторах.
+```
+conf t
+interface range fastEthernet 0/2, fastEthernet 0/4
+no shutdown 
+```
+И так для каждого коммутатора
+
+#### Шаг 4:	Отобразите данные протокола spanning-tree.
+S1:
+```
+S1#sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        2(FastEthernet0/2)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0060.476C.EA27
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Root FWD 19        128.2    P2p
+Fa0/4            Desg FWD 19        128.4    P2p
+```
+
+S2:
+```
+S2#sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             This bridge is the root
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     000C.CF5B.395B
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Desg FWD 19        128.2    P2p
+Fa0/4            Desg FWD 19        128.4    P2p
+```
+
+S3:
+```
+S3#sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        4(FastEthernet0/4)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00D0.BAAA.22A4
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/4            Root FWD 19        128.4    P2p
+Fa0/2            Altn BLK 19        128.2    P2p
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
