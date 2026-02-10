@@ -207,17 +207,114 @@ Fa0/2            Altn BLK 19        128.2    P2p
 
 *Потому что в данном случае другая сторона не является корневым портом*
 
+### Часть 3:	Наблюдение за процессом выбора протоколом STP порта, исходя из стоимости портов
 
+#### Шаг 1:	Определите коммутатор с заблокированным портом.
+**При текущей конфигурации только один коммутатор может содержать заблокированный протоколом STP порт.** 
+**Выполните команду show spanning-tree на обоих коммутаторах некорневого моста.** 
+S1:
+```
+S1#sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        2(FastEthernet0/2)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
 
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0060.476C.EA27
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
 
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Root FWD 19        128.2    P2p
+Fa0/4            Desg FWD 19        128.4    P2p
+```
 
+S3:
+```
+S3#sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        4(FastEthernet0/4)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
 
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00D0.BAAA.22A4
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
 
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/4            Root FWD 19        128.4    P2p
+Fa0/2            Altn BLK 19        128.2    P2p
+```
 
+**В нашем случае протокол spanning-tree блокирует порт F0/2 на коммутаторе с самым высоким идентификатором BID 00D0.BAAA.22A4 (S3).**
 
+#### Шаг 2:	Изменим стоимость порта.
 
+**Помимо заблокированного порта, единственным активным портом на этом коммутаторе является порт, выделенный в качестве порта корневого моста.**
 
+**Уменьшите стоимость этого порта корневого моста до 18, выполнив команду spanning-tree vlan 1 cost 18 режима конфигурации интерфейса.**
+```
+S3(config)# interface f0/4
+S3(config-if)# spanning-tree vlan 1 cost 18
+```
 
+#### Шаг 3:	Просмотрите изменения протокола spanning-tree.
+
+**Повторно выполните команду show spanning-tree на обоих коммутаторах некорневого моста.**
+
+**Обратите внимание, что ранее заблокированный порт (S1 – F0/4) теперь является назначенным портом, и протокол spanning-tree теперь блокирует порт на другом коммутаторе некорневого моста (S3 – F0/4).**
+S1:
+```
+S1#sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        2(FastEthernet0/2)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0060.476C.EA27
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/2            Root FWD 19        128.2    P2p
+Fa0/4            Altn BLK 19        128.4    P2p
+```
+S3:
+```
+S3(config-if)#do sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        18
+             Port        4(FastEthernet0/4)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00D0.BAAA.22A4
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/4            Root FWD 18        128.4    P2p
+Fa0/2            Desg FWD 19        128.2    P2p
+```
 
 
 
