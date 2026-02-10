@@ -315,6 +315,117 @@ Interface        Role Sts Cost      Prio.Nbr Type
 Fa0/4            Root FWD 18        128.4    P2p
 Fa0/2            Desg FWD 19        128.2    P2p
 ```
+**Почему протокол spanning-tree заменяет ранее заблокированный порт на назначенный порт и блокирует порт, 
+который был назначенным портом на другом коммутаторе?**
+
+
+
+
+#### Шаг 4:	Удалите изменения стоимости порта.
+**a.	Выполните команду no spanning-tree vlan 1 cost 18 режима конфигурации интерфейса, чтобы удалить запись стоимости, созданную ранее.**
+```
+S3(config)# interface f0/4
+S3(config-if)# no spanning-tree vlan 1 cost 18
+```
+**b.	Повторно выполните команду show spanning-tree, чтобы подтвердить, что протокол STP сбросил порт на коммутаторе некорневого моста, вернув исходные настройки порта. Протоколу STP требуется примерно 30 секунд, чтобы завершить процесс перевода порта.**
+```
+S3(config-if)#do sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        4(FastEthernet0/4)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00D0.BAAA.22A4
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/4            Root FWD 19        128.4    P2p
+Fa0/2            Desg FWD 19        128.2    P2p
+```
+### Часть 4:	Наблюдение за процессом выбора протоколом STP порта, исходя из приоритета портов
+
+**a.	Включите порты F0/1 и F0/3 на всех коммутаторах.**
+
+```
+conf t
+interface range fastEthernet 0/1, fastEthernet 0/3
+no shutdown 
+```
+И так для всех коммутаторов
+
+**Порт корневого моста переместился на порт с меньшим номером, связанный с коммутатором корневого моста, и заблокировал предыдущий порт корневого моста.**
+
+S1:
+```
+S1# sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        1(FastEthernet0/1)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0060.476C.EA27
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/1            Root FWD 19        128.1    P2p
+Fa0/2            Altn BLK 19        128.2    P2p
+Fa0/3            Desg FWD 19        128.3    P2p
+Fa0/4            Desg FWD 19        128.4    P2p
+```
+
+S3:
+```
+S3#sh sp
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     000C.CF5B.395B
+             Cost        19
+             Port        3(FastEthernet0/3)
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     00D0.BAAA.22A4
+             Hello Time  2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  20
+
+Interface        Role Sts Cost      Prio.Nbr Type
+---------------- ---- --- --------- -------- --------------------------------
+Fa0/3            Root FWD 19        128.3    P2p
+Fa0/4            Altn BLK 19        128.4    P2p
+Fa0/1            Altn BLK 19        128.1    P2p
+Fa0/2            Altn BLK 19        128.2    P2p
+```
+**Какой порт выбран протоколом STP в качестве порта корневого моста на каждом коммутаторе некорневого моста?** _________________________________
+**Почему протокол STP выбрал эти порты в качестве портов корневого моста на этих коммутаторах?**
+_______________________________________________________________________________________
+_______________________________________________________________________________________
+**Вопросы для повторения**
+**1.	Какое значение протокол STP использует первым после выбора корневого моста, чтобы определить выбор порта?**
+_______________________________________________________________________________________
+**2.	Если первое значение на двух портах одинаково, какое следующее значение будет использовать протокол STP при выборе порта?**
+_______________________________________________________________________________________
+**3.	Если оба значения на двух портах равны, каким будет следующее значение, которое использует протокол STP при выборе порта?**
+
+
+
+
+
+
+
+
 
 
 
