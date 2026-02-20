@@ -261,7 +261,44 @@ interface range FastEthernet 0/1 - 4, FastEthernet Fa0/7-24, Gig0/1-2
 interface range FastEthernet 0/1 - 4, FastEthernet Fa0/6-17, FastEthernet Fa0/19-24, Gig0/1-2
  shutdown
 ```
+## Шаг 8.	Назначьте сети VLAN соответствующим интерфейсам коммутатора.
+**a.	Назначьте используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настройте их для режима статического доступа.**
 
+```
+R1:
+interface FastEthernet0/5
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 100,200,1000
+ switchport mode trunk
+ switchport nonegotiate
+!
+interface FastEthernet0/6
+ switchport access vlan 100
+ switchport mode access
+ switchport nonegotiate
+```
+
+```
+ R2:
+
+interface FastEthernet0/5
+ switchport mode trunk
+ switchport nonegotiate
+!
+ interface FastEthernet0/18
+ switchport mode access
+ switchport nonegotiate
+ !
+ S2#sh interfaces trunk 
+ 
+ Port        Mode         Encapsulation  Status        Native vlan
+ Fa0/5       on           802.1q         trunking      1
+```
+
+**Вопрос:
+     Почему интерфейс F0/5 указан в VLAN 1?**
+
+***Потому что настройки базовая конфигурация подразумевает нахождение всех интерфейсов в нативном vlan 1, как следует из примечания "S2 настроен только с базовыми настройками"***
 
 
 
