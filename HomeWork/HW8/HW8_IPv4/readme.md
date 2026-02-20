@@ -300,6 +300,44 @@ interface FastEthernet0/5
 
 ***Потому что настройки базовая конфигурация подразумевает нахождение всех интерфейсов в нативном vlan 1, как следует из примечания "S2 настроен только с базовыми настройками"***
 
+## Шаг 9.	Вручную настройте интерфейс S1 F0/5 в качестве транка 802.1Q.
+
+**a.	Измените режим порта коммутатора, чтобы принудительно создать магистральный канал.**
+```
+interface FastEthernet0/5
+ switchport mode trunk
+ switchport nonegotiate
+```
+**b.	В рамках конфигурации транка  установите для native  VLAN значение 1000.**
+```
+interface FastEthernet0/5
+ switchport trunk native vlan 1000
+```
+**c.	В качестве другой части конфигурации магистрали укажите, что VLAN 100, 200 и 1000 могут проходить по транку.**
+```
+interface FastEthernet0/5
+ switchport trunk allowed vlan 100,200,1000
+```
+**d.	Проверьте состояние транка.**
+```
+S1#show interfaces trunk 
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/5       on           802.1q         trunking      1000
+
+Port        Vlans allowed on trunk
+Fa0/5       100,200,1000
+
+Port        Vlans allowed and active in management domain
+Fa0/5       100,200,1000
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Fa0/5       100,200,1000
+```
+**Вопрос:**
+
+**Какой IP-адрес был бы у ПК, если бы он был подключен к сети с помощью DHCP?**
+
+***Адрес был бы динамический***
 
 
 
