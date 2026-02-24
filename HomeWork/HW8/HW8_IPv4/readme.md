@@ -382,7 +382,90 @@ ip dhcp pool LAN-C
 ```
 R2#copy running-config startup-config 
 ```
+**Шаг 3.	Проверка конфигурации сервера DHCPv4**
 
+**a.	Чтобы просмотреть сведения о пуле, выполните команду show ip dhcp pool.**
+```
+R1#show ip dhcp pool 
+
+Pool LAN-A :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 62
+ Leased addresses               : 1
+ Excluded addresses             : 2
+ Pending event                  : none
+
+ 1 subnet is currently in the pool
+ Current index        IP address range                    Leased/Excluded/Total
+ 192.168.1.1          192.168.1.1      - 192.168.1.62      1    / 2     / 62
+
+Pool LAN-C :
+ Utilization mark (high/low)    : 100 / 0
+ Subnet size (first/next)       : 0 / 0 
+ Total addresses                : 14
+ Leased addresses               : 1
+ Excluded addresses             : 2
+ Pending event                  : none
+
+ 1 subnet is currently in the pool
+ Current index        IP address range                    Leased/Excluded/Total
+ 192.168.1.97         192.168.1.97     - 192.168.1.110     1    / 2     / 14
+```
+**b.	Выполните команду show ip dhcp binding для проверки установленных назначений адресов DHCP.**
+```
+R1#show ip dhcp binding
+IP address       Client-ID/              Lease expiration        Type
+                 Hardware address
+192.168.1.6      0006.2AC4.CB2B           --                     Automatic
+192.168.1.102    000A.F3C6.C533           --                     Automatic
+```
+**Шаг 4.	Попытка получить IP-адрес от DHCP на PC-A**
+
+**a.	Из командной строки компьютера PC-A выполните команду ipconfig /all.**
+```
+C:\> ipconfig /all
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: otus.ru
+   Physical Address................: 0006.2AC4.CB2B
+   Link-local IPv6 Address.........: FE80::206:2AFF:FEC4:CB2B
+   IPv6 Address....................: ::
+   IPv4 Address....................: 0.0.0.0
+   Subnet Mask.....................: 0.0.0.0
+   Default Gateway.................: ::
+                                     0.0.0.0
+   DHCP Servers....................: 192.168.1.1
+   DHCPv6 IAID.....................: 
+   DHCPv6 Client DUID..............: 00-01-00-01-EC-DE-8A-D4-00-06-2A-C4-CB-2B
+   DNS Servers.....................: ::
+                                     0.0.0.0
+
+```
+**b.	После завершения процесса обновления выполните команду ipconfig для просмотра новой информации об IP-адресе.**
+```
+C:\> ipconfig /all
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: otus.ru
+   Physical Address................: 0006.2AC4.CB2B
+   Link-local IPv6 Address.........: FE80::206:2AFF:FEC4:CB2B
+   IPv6 Address....................: ::
+   IPv4 Address....................: 192.168.1.6
+   Subnet Mask.....................: 255.255.255.192
+   Default Gateway.................: ::
+                                     192.168.1.1
+   DHCP Servers....................: 192.168.1.1
+   DHCPv6 IAID.....................: 
+   DHCPv6 Client DUID..............: 00-01-00-01-EC-DE-8A-D4-00-06-2A-C4-CB-2B
+   DNS Servers.....................: ::
+                                     0.0.0.0
+```
+**c.	Проверьте подключение с помощью пинга IP-адреса интерфейса R1 G0/0/1.**
+
+![](./jpg/4.PNG)
 
 
 
