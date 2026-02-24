@@ -495,9 +495,14 @@ c.	Проверьте подключение с помощью пинга IP-а�
 ![](./jpg/7.PNG)
 
 d.	Выполните show ip dhcp binding для R1 для проверки назначений адресов в DHCP.
+```
+R1#show ip dhcp binding 
+IP address       Client-ID/              Lease expiration        Type
+                 Hardware address
+192.168.1.6      0006.2AC4.CB2B           --                     Automatic
+192.168.1.102    000A.F3C6.C533           --                     Automatic
+```
 
-
-e.	Выполните команду show ip dhcp server statistics для проверки сообщений DHCP.
 
 
 
