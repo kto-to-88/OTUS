@@ -462,12 +462,34 @@ R1(config-if)# ipv6 nd other-config-flag
 R1(config-if)# ipv6 dhcp server R1-STATELESS
 ```
 **c.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.**
-
+```
+#copy running-config startup-config 
+```
 **d.	Перезапустите PC-A.**
 
 **e.	Проверьте вывод ipconfig /all и обратите внимание на изменения.**
+```
+C:\>ipconfig /all
 
-**f.	Тестирование подключения с помощью пинга IP-адреса интерфейса G0/1 R2.**
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: STATELESS.com 
+   Physical Address................: 00E0.F7DB.60E5
+   Link-local IPv6 Address.........: FE80::2E0:F7FF:FEDB:60E5
+   IPv6 Address....................: 2001:DB8:ACAD:1:2E0:F7FF:FEDB:60E5
+   IPv4 Address....................: 0.0.0.0
+   Subnet Mask.....................: 0.0.0.0
+   Default Gateway.................: FE80::1
+                                     0.0.0.0
+   DHCP Servers....................: 0.0.0.0
+   DHCPv6 IAID.....................: 988921010
+   DHCPv6 Client DUID..............: 00-01-00-01-98-C3-82-35-00-E0-F7-DB-60-E5
+   DNS Servers.....................: 2001:DB8:ACAD::254
+                                     0.0.0.0
+```
+**f.	Тестирование подключения с помощью пинга IP-адреса интерфейса G0/0/1 R2.**
+
+![](./jpg/4.PNG)
 
 
 
