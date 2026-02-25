@@ -333,7 +333,60 @@ banner motd ^C
 ```
 ipv6 unicast-routing
 ```
+***Базовая настройка R2 аналогична.***
 
+## Шаг 4. Настройка интерфейсов и маршрутизации для обоих маршрутизаторов.
+
+**a.	Настройте интерфейсы G0/0/0 и G0/1 на R1 и R2 с адресами IPv6, указанными в таблице выше.**
+```
+R1:
+interface GigabitEthernet0/0/0
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:2::1/64
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:1::1/64
+ ipv6 nd other-config-flag
+ ipv6 dhcp server R1-STATELESS
+!
+```
+```
+R2:
+interface GigabitEthernet0/0/0
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address FE80::2 link-local
+ ipv6 address 2001:DB8:ACAD:2::2/64
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ duplex auto
+ speed auto
+ ipv6 address FE80::1 link-local
+ ipv6 address 2001:DB8:ACAD:3::1/64
+ ipv6 nd other-config-flag
+ ipv6 dhcp server R2-STATELESS
+```
+**b.	Настройте маршрут по умолчанию на каждом маршрутизаторе, который указывает на IP-адрес G0/0/0 на другом маршрутизаторе.**
+```
+R1:
+ipv6 route ::/0 2001:DB8:ACAD:2::2
+```
+```
+R2:
+ipv6 route ::/0 2001:DB8:ACAD:2::1
+```
+**c.	Убедитесь, что маршрутизация работает с помощью пинга адреса G0/0/1 R2 из R1**
+
+![](./jpg/3.PNG)
 
 
 
