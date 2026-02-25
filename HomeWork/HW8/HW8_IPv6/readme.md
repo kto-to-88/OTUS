@@ -491,9 +491,34 @@ FastEthernet0 Connection:(default port)
 
 ![](./jpg/4.PNG)
 
+# Часть 4. Настройка сервера DHCPv6 с сохранением состояния на R1
 
+**В части 4 настраивается R1 для ответа на запросы DHCPv6 от локальной сети на R2.**
 
+**a.	Создайте пул DHCPv6 на R1 для сети 2001:db8:acad:3:aaa::/80. Это предоставит адреса локальной сети, подключенной к интерфейсу G0/0/1 на R2. В составе пула задайте DNS-сервер 2001:db8:acad: :254 и задайте доменное имя STATEFUL.com.**
 
+**Откройте окно конфигурации**
+```
+R1(config)# ipv6 dhcp pool R2-STATEFUL
+R1(config-dhcp)# address prefix 2001:db8:acad:3:aaa::/80
+R1(config-dhcp)# dns-server 2001:db8:acad::254
+R1(config-dhcp)# domain-name STATEFUL.com
+```
+b.	Назначьте только что созданный пул DHCPv6 интерфейсу g0/0/1 на R2.
+```
+R1(config)# interface g0/0/1
+R1(config-if)# ipv6 dhcp server R2-STATEFUL
+```
+
+В силу не возможности реализации в CPT ретрансляции DHCPv6 настроим DHCPv6 на R2 аналогично R1 и проверим ардреса PC A и B.
+
+![](./jpg/5.PNG)
+
+![](./jpg/6.PNG)
+
+**Ping от PC-A к PC-B**
+
+![](./jpg/7.PNG)
 
 
 
