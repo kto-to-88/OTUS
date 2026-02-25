@@ -420,9 +420,54 @@ FastEthernet0 Connection:(default port)
 
 ***Благодаря алгоритму EUI‑64 совмещения mac и ip адреса для получения уникальности.***
 
+# Часть 3. Настройка и проверка сервера DHCPv6 на R1
 
+**В части 3 выполняется настройка и проверка состояния DHCP-сервера на R1. Цель состоит в том, чтобы предоставить PC-A информацию о DNS-сервере и домене.**
 
+**Шаг 1. Более подробно изучите конфигурацию PC-A.**
 
+**a.	Выполните команду ipconfig /all на PC-A и посмотрите на результат.**
+
+```
+C:\>ipconfig /all
+
+FastEthernet0 Connection:(default port)
+
+   Connection-specific DNS Suffix..: STATELESS.com 
+   Physical Address................: 00E0.F7DB.60E5
+   Link-local IPv6 Address.........: FE80::2E0:F7FF:FEDB:60E5
+   IPv6 Address....................: 2001:DB8:ACAD:1:2E0:F7FF:FEDB:60E5
+   IPv4 Address....................: 0.0.0.0
+   Subnet Mask.....................: 0.0.0.0
+   Default Gateway.................: FE80::1
+                                     0.0.0.0
+   DHCP Servers....................: 0.0.0.0
+   DHCPv6 IAID.....................: 988921010
+   DHCPv6 Client DUID..............: 00-01-00-01-98-C3-82-35-00-E0-F7-DB-60-E5
+   DNS Servers.....................: 2001:DB8:ACAD::254
+                                     0.0.0.0
+```
+**Шаг 2. Настройте R1 для предоставления DHCPv6 без состояния для PC-A.**
+
+**a.	Создайте пул DHCP IPv6 на R1 с именем R1-STATELESS. В составе этого пула назначьте адрес DNS-сервера как 2001:db8:acad: :1, а имя домена — как stateless.com.**
+```
+R1(config)# ipv6 dhcp pool R1-STATELESS
+R1(config-dhcp)# dns-server 2001:db8:acad::254
+R1(config-dhcp)# domain-name STATELESS.com
+```
+**b.	Настройте интерфейс G0/0/1 на R1, чтобы предоставить флаг конфигурации OTHER для локальной сети R1 и укажите только что созданный пул DHCP в качестве ресурса DHCP для этого интерфейса.**
+```
+R1(config)# interface g0/0/1
+R1(config-if)# ipv6 nd other-config-flag 
+R1(config-if)# ipv6 dhcp server R1-STATELESS
+```
+**c.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.**
+
+**d.	Перезапустите PC-A.**
+
+**e.	Проверьте вывод ipconfig /all и обратите внимание на изменения.**
+
+**f.	Тестирование подключения с помощью пинга IP-адреса интерфейса G0/1 R2.**
 
 
 
