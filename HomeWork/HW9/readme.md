@@ -419,7 +419,7 @@ FastEthernet0/18           no         5
 ```
 C:\Users\Student> ipconfig /release
 C:\Users\Student> ipconfig /renew
-``
+```
 **f.	Проверьте привязку отслеживания DHCP с помощью команды show ip dhcp snooping binding.**
 ```
 S2# show ip dhcp snooping binding 
@@ -428,13 +428,91 @@ MacAddress          IpAddress        Lease(sec)  Type           VLAN  Interface
 00:01:97:BD:EB:82   192.168.10.11    0           dhcp-snooping  10    FastEthernet0/18
 Total number of bindings: 1
 ```
-Шаг 6. Реализация PortFast и BPDU Guard
+## Шаг 6. Реализация PortFast и BPDU Guard
 
-a.	Настройте PortFast на всех портах доступа, которые используются на обоих коммутаторах.
-b.	Включите защиту BPDU на портах доступа VLAN 10 S1 и S2, подключенных к PC-A и PC-B.
-c.	Убедитесь, что защита BPDU и PortFast включены на соответствующих портах.
+**a.	Настройте PortFast на всех портах доступа, которые используются на обоих коммутаторах.**
+```
+S1
+interface FastEthernet0/5
+ description TO-R1
+ switchport access vlan 10
+ switchport mode access
+ switchport nonegotiate
+ spanning-tree portfast
+!
+interface FastEthernet0/6
+ description TO-PC-A
+ switchport access vlan 10
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 3
+ switchport port-security violation restrict 
+ switchport port-security aging time 60
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+```
+```
+S2
+interface FastEthernet0/18
+ description TO-PC-B
+ switchport access vlan 10
+ ip dhcp snooping limit rate 5
+ switchport mode access
+ switchport nonegotiate
+ switchport port-security
+ switchport port-security maximum 2
+ switchport port-security violation protect 
+ switchport port-security aging time 60
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+```
+**b.	Включите защиту BPDU на портах доступа VLAN 10 S1 и S2, подключенных к PC-A и PC-B.**
+```
+spanning-tree bpduguard enable
+```
+**c.	Убедитесь, что защита BPDU и PortFast включены на соответствующих портах.**
+```
 S1# show spanning-tree interface f0/6 detail
+Port 6 (FastEthernet0/6) of VLAN0010 is alternate forwarding
+  Port path cost 19, Port priority 128, Port Identifier 128.6
+  Designated root has priority 32778, address 0001.4202.2901
+  Designated bridge has priority 32778, address 0001.4202.2901
+  Timers: message age 16, forward delay 0, hold 0
+  Number of transitions to forwarding state: 1
+  The port is in the portfast mode
+  Link type is point-to-point by default
+```
+```
+S2#show spanning-tree interface fastEthernet 0/18 detail 
+Port 18 (FastEthernet0/18) of VLAN0010 is designated forwarding
+  Port path cost 19, Port priority 128, Port Identifier 128.18
+  Designated root has priority 32778, address 0001.4202.2901
+  Designated bridge has priority 32778, address 0030.F248.989D
+  Designated port id is 128.18, designated path cost 19
+  Timers: message age 16, forward delay 0, hold 0
+  Number of transitions to forwarding state: 1
+  The port is in the portfast mode
+  Link type is point-to-point by default
+```
 
+## Шаг 7. Проверьте наличие сквозного ⁪подключения.
+**Проверьте PING свзяь между всеми устройствами в таблице IP-адресации. В случае сбоя проверки связи может потребоваться отключить брандмауэр на хостах.**
+
+![](./jpg/8.PNG)
+
+![](./jpg/9.PNG)
+
+![](./jpg/10.PNG)
+
+![](./jpg/11.PNG)
+
+## Вопросы для повторения
+**1.	С точки зрения безопасности порта на S2, почему нет значения таймера для оставшегося возраста в минутах, когда было сконфигурировано динамическое обучение - sticky?**
+
+**2.	Что касается безопасности порта на S2, если вы загружаете скрипт текущей конфигурации на S2, почему порту 18 на PC-B никогда не получит IP-адрес через DHCP?**
+
+**3.	Что касается безопасности порта, в чем разница между типом абсолютного устаревания и типом устаревание по неактивности?**
 
 
 
