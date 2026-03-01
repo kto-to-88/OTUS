@@ -140,10 +140,29 @@ ip default-gateway 192.168.10.1
 **Шаг 1. Релизация магистральных соединений 802.1Q.**
 
 **a.	Настройте все магистральные порты Fa0/1 на обоих коммутаторах для использования VLAN 333 в качестве native VLAN.**
-
+```
+!
+interface FastEthernet0/1
+ description TO-S2
+ switchport trunk native vlan 333
+ switchport trunk allowed vlan 10,333
+ switchport mode trunk
+ switchport nonegotiate
+```
 **b.	Убедитесь, что режим транкинга успешно настроен на всех коммутаторах.**
 ```
 S1# show interface trunk
+
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/1       on           802.1q         trunking      333
+
+Port        Vlans allowed on trunk
+Fa0/1       10,333
+
+Port        Vlans allowed and active in management domain
+Fa0/1       10,333
+
+Port        Vlans in spanning tree forwarding state and not pruned
 ```
 
 
