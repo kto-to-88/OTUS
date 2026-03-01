@@ -369,10 +369,71 @@ Vlan    Mac Address       Type                          Ports   Remaining Age
 Total Addresses in System (excluding one mac per port)     : 0
 Max Addresses limit in System (excluding one mac per port) : 1024
 ```
+## Шаг 5. Реализовать безопасность DHCP snooping.
 
+**a.	На S2 включите DHCP snooping и настройте DHCP snooping во VLAN 10.**
+```
+S2#show ip dhcp snooping 
+Switch DHCP snooping is enabled
+DHCP snooping is configured on following VLANs:
+10
+Insertion of option 82 is disabled
+Option 82 on untrusted port is not allowed
+Verification of hwaddr field is enabled
+Interface                  Trusted    Rate limit (pps)
+-----------------------    -------    ----------------
+FastEthernet0/1            yes        unlimited       
+FastEthernet0/18           no         5   
+```
+**b.	Настройте магистральные порты на S2 как доверенные порты.**
+```
+interface FastEthernet0/1
+ switchport trunk native vlan 333
+ switchport trunk allowed vlan 10,333
+ ip dhcp snooping trust
+ switchport mode trunk
+ switchport nonegotiate
+```
+**c.	Ограничьте ненадежный порт Fa0/18 на S2 пятью DHCP-пакетами в секунду.**
+```
+interface FastEthernet0/18
+ description TO-PC-B
+ switchport access vlan 10
+ ip dhcp snooping limit rate 5
+```
+**d.	Проверка DHCP Snooping на S2.**
+```
+S2# show ip dhcp snooping
+Switch DHCP snooping is enabled
+DHCP snooping is configured on following VLANs:
+10
+Insertion of option 82 is disabled
+Option 82 on untrusted port is not allowed
+Verification of hwaddr field is enabled
+Interface                  Trusted    Rate limit (pps)
+-----------------------    -------    ----------------
+FastEthernet0/1            yes        unlimited       
+FastEthernet0/18           no         5   
+```
+**e.	В командной строке на PC-B освободите, а затем обновите IP-адрес.**
+```
+C:\Users\Student> ipconfig /release
+C:\Users\Student> ipconfig /renew
+``
+**f.	Проверьте привязку отслеживания DHCP с помощью команды show ip dhcp snooping binding.**
+```
+S2# show ip dhcp snooping binding 
+MacAddress          IpAddress        Lease(sec)  Type           VLAN  Interface
+------------------  ---------------  ----------  -------------  ----  -----------------
+00:01:97:BD:EB:82   192.168.10.11    0           dhcp-snooping  10    FastEthernet0/18
+Total number of bindings: 1
+```
+Шаг 6. Реализация PortFast и BPDU Guard
 
-
-
+a.	Настройте PortFast на всех портах доступа, которые используются на обоих коммутаторах.
+b.	Включите защиту BPDU на портах доступа VLAN 10 S1 и S2, подключенных к PC-A и PC-B.
+c.	Убедитесь, что защита BPDU и PortFast включены на соответствующих портах.
+S1# show spanning-tree interface f0/6 detail
 
 
 
