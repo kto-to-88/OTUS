@@ -164,7 +164,20 @@ Fa0/1       10,333
 
 Port        Vlans in spanning tree forwarding state and not pruned
 ```
+```
+S2#show interfaces trunk 
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/1       on           802.1q         trunking      333
 
+Port        Vlans allowed on trunk
+Fa0/1       10,333
+
+Port        Vlans allowed and active in management domain
+Fa0/1       10,333
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Fa0/1       10,333
+```
 
 
 
