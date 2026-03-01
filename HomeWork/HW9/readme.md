@@ -178,7 +178,20 @@ Fa0/1       10,333
 Port        Vlans in spanning tree forwarding state and not pruned
 Fa0/1       10,333
 ```
-
+**c.	Отключить согласование DTP F0/1 на S1 и S2.**
+```
+interface FastEthernet0/1
+ description TO-S2
+ switchport trunk native vlan 333
+ switchport trunk allowed vlan 10,333
+ switchport mode trunk
+ switchport nonegotiate
+```
+**d.	Проверьте с помощью команды show interfaces.**
+```
+S1(S2)# show interfaces f0/1 switchport 
+Negotiation of Trunking: Off
+```
 
 
 
