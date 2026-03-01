@@ -293,9 +293,82 @@ Gig0/2                       disabled 999        auto    auto  10/100BaseTX
 
 ![](./jpg/7.PNG)
 
+**b.	На S1 включите защиту порта на F0 / 6 со следующими настройками:**
 
+**o	Максимальное количество записей MAC-адресов: 3**
 
+**o	Режим безопасности: restrict**
 
+**o	Aging time: 60 мин.**
+
+**o	Aging type: неактивный**
+
+**c.	Проверьте port security на S1 F0/6.**
+```
+S1# show port-security interface f0/6
+Port Security              : Enabled
+Port Status                : Secure-up
+Violation Mode             : Restrict
+Aging Time                 : 60 mins
+Aging Type                 : Absolute
+SecureStatic Address Aging : Disabled
+Maximum MAC Addresses      : 3
+Total MAC Addresses        : 1
+Configured MAC Addresses   : 0
+Sticky MAC Addresses       : 0
+Last Source Address:Vlan   : 00D0.FF36.63CC:10
+Security Violation Count   : 0
+```
+```
+S1#show port-security address 
+               Secure Mac Address Table
+-----------------------------------------------------------------------------
+Vlan    Mac Address       Type                          Ports   Remaining Age
+                                                                   (mins)
+----    -----------       ----                          -----   -------------
+10	00D0.FF36.63CC	DynamicConfigured	FastEthernet0/6		-
+-----------------------------------------------------------------------------
+Total Addresses in System (excluding one mac per port)     : 0
+Max Addresses limit in System (excluding one mac per port) : 1024
+```
+**d.	Включите безопасность порта для F0 / 18 на S2. Настройте каждый активный порт доступа таким образом, чтобы он автоматически добавлял адреса МАС, изученные на этом порту, в текущую конфигурацию.**
+
+**e.	Настройте следующие параметры безопасности порта на S2 F / 18:**
+
+**o	Максимальное количество записей MAC-адресов: 2**
+
+**o	Тип безопасности: Protect**
+
+**o	Aging time: 60 мин.**
+
+**f.	Проверка функции безопасности портов на S2 F0/18.**
+```
+S2# show port-security interface f0/18
+Port Security              : Enabled
+Port Status                : Secure-up
+Violation Mode             : Protect
+Aging Time                 : 60 mins
+Aging Type                 : Absolute
+SecureStatic Address Aging : Disabled
+Maximum MAC Addresses      : 2
+Total MAC Addresses        : 1
+Configured MAC Addresses   : 0
+Sticky MAC Addresses       : 0
+Last Source Address:Vlan   : 0001.97BD.EB82:10
+Security Violation Count   : 0
+```
+```
+S2# show port-security address
+               Secure Mac Address Table
+-----------------------------------------------------------------------------
+Vlan    Mac Address       Type                          Ports   Remaining Age
+                                                                   (mins)
+----    -----------       ----                          -----   -------------
+10	0001.97BD.EB82	DynamicConfigured	FastEthernet0/18		-
+-----------------------------------------------------------------------------
+Total Addresses in System (excluding one mac per port)     : 0
+Max Addresses limit in System (excluding one mac per port) : 1024
+```
 
 
 
