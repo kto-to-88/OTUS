@@ -249,8 +249,235 @@ GigabitEthernet0/1 is up, line protocol is up
 **Ответ:
 Сеть 192.168.1.0/24 подключена непосредственно к R2. Поэтому стоимость для R2 меньше.**
 
+**Конфигурации R1 и R2:**
+```
+R1#sh r
+Building configuration...
 
+Current configuration : 1288 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname R1
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+license udi pid CISCO2911/K9 sn FTX152496TM-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name otus.ru
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 172.16.1.1 255.255.255.0
+ ip ospf 56 area 0
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/1
+ ip address 10.53.0.1 255.255.255.0
+ ip ospf cost 10
+ ip ospf hello-interval 30
+ ip ospf dead-interval 120
+ ip ospf priority 50
+ ip ospf 56 area 0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 56
+ router-id 1.1.1.1
+ log-adjacency-changes
+ default-information originate
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 Loopback1 
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C
+*****************STOP!!!*******************^C
+!
+!
+!
+!
+!
+line con 0
+ login local
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+!
+end
+```
+```
+R2#show running-config 
+Building configuration...
 
+Current configuration : 1282 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname R2
+!
+!
+!
+enable secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+username admin privilege 15 secret 5 $1$mERr$hx5rVt7rPNoS4wqbXKX7m0
+!
+!
+license udi pid CISCO2911/K9 sn FTX1524J936-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip ssh version 2
+no ip domain-lookup
+ip domain-name otus.ru
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 192.168.1.1 255.255.255.0
+ ip ospf network point-to-point
+ ip ospf priority 1
+ ip ospf 56 area 0
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/1
+ ip address 10.53.0.2 255.255.255.0
+ ip ospf cost 10
+ ip ospf hello-interval 30
+ ip ospf dead-interval 120
+ ip ospf 56 area 0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 56
+ router-id 2.2.2.2
+ log-adjacency-changes
+ passive-interface Loopback1
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd ^C
+*****************STOP!!!*******************^C
+!
+!
+!
+!
+!
+line con 0
+ login local
+!
+line aux 0
+!
+line vty 0 4
+ login local
+ transport input ssh
+!
+!
+!
+end
+```
 
 
 
