@@ -106,17 +106,76 @@ R1#copy running-config startup-config
 ### Шаг 1. Создайте сети VLAN на коммутаторах.
 
 **a.	Создайте необходимые VLAN и назовите их на каждом коммутаторе из приведенной выше таблицы.**
+```
+S1# sh vl br
 
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+20   MGMT                             active    
+30   Operations                       active    Fa0/6
+40   Sales                            active    
+999  ParkingLot                       active    Fa0/2, Fa0/3, Fa0/4, Fa0/7
+                                                Fa0/8, Fa0/9, Fa0/10, Fa0/11
+                                                Fa0/12, Fa0/13, Fa0/14, Fa0/15
+                                                Fa0/16, Fa0/17, Fa0/18, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gig0/1, Gig0/2
+1000 NATIVE                           active    
+
+S2#sh vl br
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+20   MGMT                             active    Fa0/5
+40   SALES                            active    Fa0/18
+999  ParkingLot                       active    Fa0/2, Fa0/3, Fa0/4, Fa0/6
+                                                Fa0/7, Fa0/8, Fa0/9, Fa0/10
+                                                Fa0/11, Fa0/12, Fa0/13, Fa0/14
+                                                Fa0/15, Fa0/16, Fa0/17, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gig0/1, Gig0/2
+1000 NATIVE                           active    
+
+```
 **b.	Настройте интерфейс управления и шлюз по умолчанию на каждом коммутаторе, используя информацию об IP-адресе в таблице адресации.**
-
+```
+S1: interface Vlan20
+ ip address 10.20.0.2 255.255.255.0
+ip default-gateway 10.20.0.1
+```
 **c.	Назначьте все неиспользуемые порты коммутатора VLAN Parking Lot, настройте их для статического режима доступа и административно деактивируйте их.**
- 
+ ```
+S2#sh vl br
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+
+999  ParkingLot                       active    Fa0/2, Fa0/3, Fa0/4, Fa0/6
+                                                Fa0/7, Fa0/8, Fa0/9, Fa0/10
+                                                Fa0/11, Fa0/12, Fa0/13, Fa0/14
+                                                Fa0/15, Fa0/16, Fa0/17, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gig0/1, Gig0/2
+
+ interface FastEthernet:   Fa0/2, Fa0/3, Fa0/4, Fa0/6 Fa0/7, Fa0/8, Fa0/9, Fa0/10
+                           Fa0/11, Fa0/12, Fa0/13, Fa0/14, Fa0/15, Fa0/16, Fa0/17, Fa0/19
+                           Fa0/20, Fa0/21, Fa0/22, Fa0/23, Fa0/24, Gig0/1, Gig0/2
+ switchport access vlan 999
+ switchport mode access
+ shutdown 
+```
 ### Шаг 2. Назначьте сети VLAN соответствующим интерфейсам коммутатора.
 
 **a.	Назначьте используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настройте их для режима статического доступа.**
+```
 
+```
 **b.	Выполните команду show vlan brief, чтобы убедиться, что сети VLAN назначены правильным интерфейсам.**
+```
 
+```
 
 
 
