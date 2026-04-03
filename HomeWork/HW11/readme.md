@@ -174,11 +174,96 @@ VLAN Name                             Status    Ports
 ```
 **b.	Выполните команду show vlan brief, чтобы убедиться, что сети VLAN назначены правильным интерфейсам.**
 ```
+S1# sh vl br
 
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+20   MGMT                             active    
+30   Operations                       active    Fa0/6
+40   Sales                            active    
+999  ParkingLot                       active    Fa0/2, Fa0/3, Fa0/4, Fa0/7
+                                                Fa0/8, Fa0/9, Fa0/10, Fa0/11
+                                                Fa0/12, Fa0/13, Fa0/14, Fa0/15
+                                                Fa0/16, Fa0/17, Fa0/18, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gig0/1, Gig0/2
+1000 NATIVE                           active    
+
+S2#sh vl br
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    
+20   MGMT                             active    Fa0/5
+40   SALES                            active    Fa0/18
+999  ParkingLot                       active    Fa0/2, Fa0/3, Fa0/4, Fa0/6
+                                                Fa0/7, Fa0/8, Fa0/9, Fa0/10
+                                                Fa0/11, Fa0/12, Fa0/13, Fa0/14
+                                                Fa0/15, Fa0/16, Fa0/17, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gig0/1, Gig0/2
+1000 NATIVE                           active    
 ```
 
+## Часть 3. ·Настройте транки (магистральные каналы).
 
+### Шаг 1. Вручную настройте магистральный интерфейс F0/1.
 
+**a.	Измените режим порта коммутатора на интерфейсе F0/1, чтобы принудительно создать магистральную связь. Не забудьте сделать это на обоих коммутаторах.**
+```
+interface FastEthernet0/1
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 20,30,40,1000
+ switchport mode trunk
+ switchport nonegotiate
+```
+**b.	В рамках конфигурации транка установите для native vlan значение 1000 на обоих коммутаторах. При настройке двух интерфейсов для разных собственных VLAN сообщения об 
+ошибках могут отображаться временно.**
+```
+1000 NATIVE                           active   
+```
+**c.	В качестве другой части конфигурации транка укажите, что VLAN 20, 30, 40 и 1000 разрешены в транке.**
+```
+switchport trunk allowed vlan 20,30,40,1000
+```
+**d.	Выполните команду show interfaces trunk для проверки портов магистрали, собственной VLAN и разрешенных VLAN через магистраль.**
+```
+S1#sh interfaces trunk 
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/1       on           802.1q         trunking      1000
+Fa0/5       on           802.1q         trunking      1000
+
+Port        Vlans allowed on trunk
+Fa0/1       20,30,40,1000
+Fa0/5       20,30,40,1000
+```
+
+### Шаг 2. Вручную настройте магистральный интерфейс F0/5 на коммутаторе S1.
+
+**a.	Настройте интерфейс S1 F0/5 с теми же параметрами транка, что и F0/1. Это транк до маршрутизатора.**
+```
+interface FastEthernet0/5
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 20,30,40,1000
+ switchport mode trunk
+ switchport nonegotiate
+```
+**b.	Сохраните текущую конфигурацию в файл загрузочной конфигурации.**
+```
+S1#copy running-config startup-config 
+```
+**c.	Используйте команду show interfaces trunk для проверки настроек транка.**
+```
+S1#sh int tr
+Port        Mode         Encapsulation  Status        Native vlan
+Fa0/1       on           802.1q         trunking      1000
+Fa0/5       on           802.1q         trunking      1000
+
+Port        Vlans allowed on trunk
+Fa0/1       20,30,40,1000
+Fa0/5       20,30,40,1000
+```
 
 
 
