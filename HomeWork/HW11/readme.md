@@ -379,7 +379,7 @@ R1(config)# ip http authentication local
 
 ![](./jpg/3.PNG)
 
-
+*** ping проходят в соответствии с требованиями таблицы***
 
 
 
