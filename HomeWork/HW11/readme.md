@@ -269,17 +269,55 @@ Fa0/5       20,30,40,1000
 ### Шаг 1. Настройка маршрутизации между сетями VLAN на R1.
 
 **a.	Активируйте интерфейс G0/0/1 на маршрутизаторе.**
-
+```
+interface GigabitEthernet0/1
+no sh
+```
 **b.	Настройте подинтерфейсы для каждой VLAN, как указано в таблице IP-адресации.
 Все подинтерфейсы используют инкапсуляцию 802.1Q. Убедитесь, что подинтерфейс для 
 собственной VLAN не имеет назначенного IP-адреса. Включите описание для каждого подинтерфейса.**
-
+```
+interface GigabitEthernet0/1.20
+ encapsulation dot1Q 20
+ ip address 10.20.0.1 255.255.255.0
+!
+interface GigabitEthernet0/1.30
+ encapsulation dot1Q 30
+ ip address 10.30.0.1 255.255.255.0
+ ip access-group OPERATIONS_NO-PING_SALEL in
+!
+interface GigabitEthernet0/1.40
+ encapsulation dot1Q 40
+ ip address 10.40.0.1 255.255.255.0
+ ip access-group SALES_NO_SSH_TO_MGMT in
+!
+interface GigabitEthernet0/1.1000
+ encapsulation dot1Q 1000 native
+ no ip address
+```
 **c.	Настройте интерфейс Loopback 1 на R1 с адресацией из приведенной выше таблицы.**
-
+```
+interface Loopback1
+ ip address 172.16.1.1 255.255.255.0
+```
 **d.	С помощью команды show ip interface brief проверьте конфигурацию подынтерфейса.**
-
+```
+R1#sh ip interface brief 
+Interface              IP-Address      OK? Method Status                Protocol 
+GigabitEthernet0/1.20  10.20.0.1       YES manual up                    up 
+GigabitEthernet0/1.30  10.30.0.1       YES manual up                    up 
+GigabitEthernet0/1.40  10.40.0.1       YES manual up                    up 
+GigabitEthernet0/1.1000unassigned      YES unset  up                    up 
+```
 ### Шаг 2. Настройка интерфейса R2 g0/0/1 с использованием адреса из таблицы и маршрута по умолчанию с адресом следующего перехода 10.20.0.1
-
+```
+interface GigabitEthernet0/1
+ ip address 10.20.0.4 255.255.255.0
+ duplex auto
+ speed auto
+!
+ip route 0.0.0.0 0.0.0.0 10.20.0.1 
+```
 
 
 
