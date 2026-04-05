@@ -438,7 +438,9 @@ interface GigabitEthernet0/1.40
  ip access-group SALES_NO_SSH_TO_MGMT in
 ```
 
+### Выполним следующие тесты. Ожидаемые результаты показаны в таблице:
 
+![](./jpg/10.PNG)
 
 
 
