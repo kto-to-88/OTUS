@@ -170,6 +170,21 @@ VLAN Name                             Status    Ports
 
 **a.	Назначьте используемые порты соответствующей VLAN (указанной в таблице VLAN выше) и настройте их для режима статического доступа.**
 ```
+interface FastEthernet0/1
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 20,30,40,1000
+ switchport mode trunk
+ switchport nonegotiate
+
+interface FastEthernet0/5
+ switchport trunk native vlan 1000
+ switchport trunk allowed vlan 20,30,40,1000
+ switchport mode trunk
+ switchport nonegotiate
+
+interface FastEthernet0/6
+ switchport access vlan 30
+ switchport mode access
 
 ```
 **b.	Выполните команду show vlan brief, чтобы убедиться, что сети VLAN назначены правильным интерфейсам.**
@@ -318,8 +333,51 @@ interface GigabitEthernet0/1
 !
 ip route 0.0.0.0 0.0.0.0 10.20.0.1 
 ```
+## Часть 5. Настройте удаленный доступ
+### Шаг 1. Настройте все сетевые устройства для базовой поддержки SSH.
 
+a.	Создайте локального пользователя с именем пользователя admin и зашифрованным паролем cisco
+```
+username admin privilege 15 secret 5
+```
+b.	Используйте otus.ru в качестве доменного имени.
+```
+ip domain-name otus.ru
+```
+c.	Генерируйте криптоключи с помощью 1024 битного модуля.
+```
+R1#sh crypto  key mypubkey rsa 
+% Key pair was generated at: 0:14:11 UTC Март 1 1993
+Key name: R1.otus.ru
+ Storage Device: not specified
+ Usage: General Purpose Key
+ Key is not exportable.
+```
+d.	Настройте первые пять линий VTY на каждом устройстве, чтобы поддерживать только SSH-соединения и с локальной аутентификацией.
+```
+line vty 0 4
+ login local
+ transport input ssh
+```
+### Шаг 2. Включите защищенные веб-службы с проверкой подлинности на R1. (данный шаг в задании не выполняется)
 
+a.	Включите сервер HTTPS на R1.
+
+R1(config)# ip http secure-server 
+
+b.	Настройте R1 для проверки подлинности пользователей, пытающихся подключиться к веб-серверу.
+
+R1(config)# ip http authentication local
+
+## Часть 6. Проверка подключения
+
+### Шаг 1. Настройте узлы ПК.
+
+**Адреса ПК можно посмотреть в таблице адресации.**
+
+## Шаг 2. Выполните следующие тесты. Эхозапрос должен пройти успешно.
+
+![](./jpg/3.PNG)
 
 
 
