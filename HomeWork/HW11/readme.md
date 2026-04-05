@@ -381,11 +381,62 @@ R1(config)# ip http authentication local
 
 *** ping проходят в соответствии с требованиями таблицы***
 
+![](./jpg/4.PNG)
 
+![](./jpg/5.PNG)
 
+![](./jpg/6.PNG)
 
+***Создан внешний сервер на на R1, но в соответствующей сети***
 
+![](./jpg/7.PNG)
 
+***Сервер на R1 создать в данной среде невозможно. Но запрос всё равно проходит, в соответствии с требованием таблицы***
+
+![](./jpg/8.PNG)
+
+![](./jpg/9.PNG)
+
+### Часть 7. Настройка и проверка списков контроля доступа (ACL)
+
+## При проверке базового подключения компания требует реализации следующих политик безопасности:
+
+## Политика1. Сеть Sales не может использовать SSH в сети Management (но в  другие сети SSH разрешен).
+
+## Политика 2. Сеть Sales не имеет доступа к IP-адресам в сети Management с помощью любого веб-протокола (HTTP/HTTPS). 
+
+## Сеть Sales также не имеет доступа к интерфейсам R1 с помощью любого веб-протокола. Разрешён весь другой веб-трафик (обратите внимание — Сеть Sales  может получить доступ к интерфейсу Loopback 1 на R1).
+
+## Политика3. Сеть Sales не может отправлять эхо-запросы ICMP в сети Operations или Management. Разрешены эхо-запросы ICMP к другим адресатам. 
+
+## Политика 4: Cеть Operations  не может отправлять ICMP эхозапросы в сеть Sales. Разрешены эхо-запросы ICMP к другим адресатам. 
+
+***ACL реализован на входящем интерфейсе следующим образом:***
+
+```
+R1#sh acc
+Extended IP access list SALES_NO_SSH_TO_MGMT
+    10 deny tcp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 eq 22
+    20 deny tcp 10.40.0.0 0.0.0.255 10.0.0.0 0.255.0.255 eq www (81 match(es))
+    30 deny icmp 10.40.0.0 0.0.0.255 10.20.0.0 0.0.0.255 echo
+    40 deny icmp 10.40.0.0 0.0.0.255 10.30.0.0 0.0.0.255 echo
+    50 permit ip any any (2 match(es))
+    60 deny ip any any
+Extended IP access list OPERATIONS_NO-PING_SALEL
+    10 deny icmp 10.30.0.0 0.0.0.255 10.40.0.0 0.0.0.255 echo (4 match(es))
+    20 permit ip any any (3 match(es))
+    30 deny ip any any
+!
+interface GigabitEthernet0/1.30
+ encapsulation dot1Q 30
+ ip address 10.30.0.1 255.255.255.0
+ ip access-group OPERATIONS_NO-PING_SALEL in
+!
+interface GigabitEthernet0/1.40
+ encapsulation dot1Q 40
+ ip address 10.40.0.1 255.255.255.0
+ ip access-group SALES_NO_SSH_TO_MGMT in
+```
 
 
 
