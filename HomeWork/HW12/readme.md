@@ -211,13 +211,13 @@ R1# show ip nat translations
 **d.	Теперь запускаем пинг R2 Lo1 из S2. На этот раз перевод завершается неудачей, и вы получаете эти сообщения (или аналогичные)**
 **на консоли R1:**
 
-Sep 23 15:43:55.562: %IOSXE-6-PLATFORM: R0/0: cpp_cp: QFP:0.0 Thread:000 TS:00000001473688385900 %NAT-6-ADDR_ALLOC_FAILURE: Address allocation failed; pool 1 may be exhausted [2]
+![](./jpg/7.PNG)
 
 **f.	Учитывая, что пул ограничен тремя адресами, NAT для пула адресов недостаточно для нашего приложения. Очистите преобразование NAT и статистику, и мы перейдем к PAT.**
-
+```
 R1# clear ip nat translations * 
 R1# clear ip nat statistics 
-
+```
 
 
 
