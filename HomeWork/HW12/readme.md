@@ -262,18 +262,14 @@ R1# show ip nat translations
 
 ***Один публичный IP используется для множества приватных, тображаются IP:порт ***
 
-b.	С PC-A, запустите эхо-запрос интерфейса Lo1 (209.165.200.1) на R2. Если эхо-запрос не прошел, выполните отладку. На R1 отобразите таблицу NAT на R1 с помощью команды show ip nat translations.
+**b.	С PC-A, запустите эхо-запрос интерфейса Lo1 (209.165.200.1) на R2. Если эхо-запрос не прошел, выполните отладку.** 
+
+**На R1 отобразите таблицу NAT на R1 с помощью команды show ip nat translations.**
+```
 R1# show ip nat translations
-Pro Inside global Inside local Outside local Outside global
-226:1 192.168.1. 2:1 209.165.200. 1:1 209.165.200. 1:1
-Total number of translations: 1
-Обратите внимание, что есть только одна трансляция. Отправьте ping еще раз, и быстро вернитесь к маршрутизатору и введите команду show ip nat translations verbose , и вы увидите, что произошло.
-R1# show ip nat translations verbose 
-Pro Inside global Inside local Outside local Outside global
-icmp 209.165.200.226:1 192.168.1.2:1 209.165.200.1:1 209.165.200.1:1 
-  create: 09/23/19 16:57:22, use: 09/23/19 16:57:25, timeout: 00:01:00
-<output omitted>
-Как вы можете видеть, время ожидания перевода было отменено с 24 часов до 1 минуты.
+```
+![](./jpg/9.PNG)
+
 c.	Генерирует трафик с нескольких устройств для наблюдения PAT. На PC-A и PC-B используйте параметр -t с командой ping, чтобы отправить безостановочный ping на интерфейс Lo1 R2 (ping -t 209.165.200.1), затем вернитесь к R1 и выполните команду show ip nat translations:
 R1# show ip nat translations
 Pro Inside global Inside local Outside local Outside global
