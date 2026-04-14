@@ -183,7 +183,7 @@ R1(config-if)# ip nat outside
 ```
 R1# show ip nat translations
 ```
-
+![](./jpg/3.PNG)
 
 
 
