@@ -227,32 +227,30 @@ Duplex: full
 ***Device ID,Entry address(es),IP address, Platform: cisco 2960, Capabilities, Switch Interfac, Port ID, Holdtime, Version :***
 
 ``` 
-R1 # show cdp entry  S1 
--------------------------
+R1#  show cdp entry S1
+
 Device ID: S1
-Entry address(es):
-  IP address: 10.22.0.2
-Platform: cisco WS-C2960+24LC-L, Capabilities: Switch IGMP 
-Interface: GigabitEthernet0/0/1, Port ID (outgoing port): FastEthernet0/5
-Holdtime : 133 sec
+Entry address(es): 
+  IP address : 10.22.0.2
+Platform: cisco 2960, Capabilities: Switch
+Interface: GigabitEthernet0/0, Port ID (outgoing port): FastEthernet0/2
+Holdtime: 135
 
 Version :
-Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(4)E8, RELEASE SOFTWARE (fc3) 
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
-Copyright (c) 1986-2019 by Cisco Systems, Inc.
-Compiled Fri 15-Mar-19 17:28 by prod_rel_team 
+Copyright (c) 1986-2013 by Cisco Systems, Inc.
+Compiled Wed 26-Jun-13 02:49 by mnguyen
 
 advertisement version: 2
-VTP Management Domain: ''
-Native VLAN: 1
 Duplex: full
-Management address(es):
-  IP address: 10.22.0.2
 ```
 
 **f.	Отключить CDP глобально на всех устройствах.**
 ```
-
+R1(config)#no cdp run
+R1#sh cdp 
+% CDP is not enabled
 ```
 
 
