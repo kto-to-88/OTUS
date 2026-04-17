@@ -111,7 +111,97 @@ S1(config-if-range)#shutdown
 S1#copy running-config startup-config 
 ```
 
+## Часть 2. Обнаружение сетевых ресурсов с помощью протокола CDP
 
+**На устройствах Cisco протокол CDP включен по умолчанию. Воспользуйтесь CDP, чтобы обнаружить порты, к которым подключены кабели.**
+Откройте окно конфигурации
+
+**a.	На R1 используйте соответствующую команду show cdp, чтобы определить, сколько интерфейсов включено CDP, сколько из них включено и сколько отключено.**
+ 
+**Вопрос:**
+**Сколько интерфейсов участвует в объявлениях CDP? Какие из них активны?**
+
+Введите ваш ответ здесь.
+ 
+**b.	На R1 используйте соответствующую команду show cdp, чтобы определить версию IOS, используемую на S1.**
+```
+R1 # show cdp entry  S1
+-------------------------
+Device ID: S1
+Entry address(es):
+Platform: cisco WS-C2960+24LC-L, Capabilities: Switch IGMP 
+Interface: GigabitEthernet0/0/1, Port ID (outgoing port): FastEthernet0/5
+Holdtime : 125 sec
+
+Version :
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(4)E8, RELEASE SOFTWARE (fc3) 
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2019 by Cisco Systems, Inc.
+Compiled Fri 15-Mar-19 17:28 by prod_rel_team 
+
+advertisement version: 2
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+```
+**Вопрос:**
+
+**Какая версия IOS используется на  S1?**
+Введите ваш ответ здесь.
+ 
+**c.	На S1 используйте соответствующую команду show cdp, чтобы определить, сколько пакетов CDP было выданных.**
+```
+S1# show cdp traffic
+CDP counters : 
+        Total packets output: 179, Input: 148 
+        Hdr syntax: 0, Chksum error: 0, Encaps failed: 0 
+        No memory: 0, Invalid packet: 0, 
+        CDP version 1 advertisements output: 0, Input: 0 
+        CDP version 2 advertisements output: 179, Input: 148
+```
+
+**Вопрос:**
+**Сколько пакетов имеет выход CDP с момента последнего сброса счетчика?**
+Введите ваш ответ здесь.
+ 
+**d.	Настройте SVI для VLAN 1 на S1 и S2, используя IP-адреса, указанные в таблице адресации выше.** 
+**Настройте шлюз по умолчанию для каждого коммутатора на основе таблицы адресов.**
+ 
+**e.	На R1 выполните команду show cdp entry S1 .** 
+
+**Вопрос:**
+
+**Какие дополнительные сведения доступны теперь?**
+Введите ваш ответ здесь.
+
+``` 
+R1 # show cdp entry  S1 
+-------------------------
+Device ID: S1
+Entry address(es):
+  IP address: 10.22.0.2
+Platform: cisco WS-C2960+24LC-L, Capabilities: Switch IGMP 
+Interface: GigabitEthernet0/0/1, Port ID (outgoing port): FastEthernet0/5
+Holdtime : 133 sec
+
+Version :
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(4)E8, RELEASE SOFTWARE (fc3) 
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2019 by Cisco Systems, Inc.
+Compiled Fri 15-Mar-19 17:28 by prod_rel_team 
+
+advertisement version: 2
+VTP Management Domain: ''
+Native VLAN: 1
+Duplex: full
+Management address(es):
+  IP address: 10.22.0.2
+```
+
+**f.	Отключить CDP глобально на всех устройствах.**
+```
+
+```
 
 
 
