@@ -114,40 +114,60 @@ S1#copy running-config startup-config
 ## Часть 2. Обнаружение сетевых ресурсов с помощью протокола CDP
 
 **На устройствах Cisco протокол CDP включен по умолчанию. Воспользуйтесь CDP, чтобы обнаружить порты, к которым подключены кабели.**
-Откройте окно конфигурации
 
 **a.	На R1 используйте соответствующую команду show cdp, чтобы определить, сколько интерфейсов включено CDP, сколько из них включено и сколько отключено.**
- 
+ ```
+S1#sh cdp interface 
+FastEthernet0/1 is up, line protocol is up
+  Sending CDP packets every 60 seconds
+  Holdtime is 180 seconds
+FastEthernet0/2 is up, line protocol is up
+  Sending CDP packets every 60 seconds
+  Holdtime is 180 seconds
+
+S2#show cdp interface 
+FastEthernet0/1 is up, line protocol is up
+  Sending CDP packets every 60 seconds
+  Holdtime is 180 seconds
+
+R1#show cdp interface 
+Vlan1 is administratively down, line protocol is down
+  Sending CDP packets every 60 seconds
+  Holdtime is 180 seconds
+GigabitEthernet0/0 is up, line protocol is up
+  Sending CDP packets every 60 seconds
+```
 **Вопрос:**
+
 **Сколько интерфейсов участвует в объявлениях CDP? Какие из них активны?**
 
-Введите ваш ответ здесь.
+***CDP активно на включненных интерфейсах, на которых включено CDP***
  
 **b.	На R1 используйте соответствующую команду show cdp, чтобы определить версию IOS, используемую на S1.**
 ```
-R1 # show cdp entry  S1
--------------------------
+R1#show cdp entry  S1
+
 Device ID: S1
-Entry address(es):
-Platform: cisco WS-C2960+24LC-L, Capabilities: Switch IGMP 
-Interface: GigabitEthernet0/0/1, Port ID (outgoing port): FastEthernet0/5
-Holdtime : 125 sec
+Entry address(es): 
+  IP address : 10.22.0.2
+Platform: cisco 2960, Capabilities: Switch
+Interface: GigabitEthernet0/0, Port ID (outgoing port): FastEthernet0/2
+Holdtime: 178
 
 Version :
-Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.2(4)E8, RELEASE SOFTWARE (fc3) 
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
-Copyright (c) 1986-2019 by Cisco Systems, Inc.
-Compiled Fri 15-Mar-19 17:28 by prod_rel_team 
+Copyright (c) 1986-2013 by Cisco Systems, Inc.
+Compiled Wed 26-Jun-13 02:49 by mnguyen
 
 advertisement version: 2
-VTP Management Domain: ''
-Native VLAN: 1
 Duplex: full
 ```
 **Вопрос:**
 
 **Какая версия IOS используется на  S1?**
-Введите ваш ответ здесь.
+
+***C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)***
  
 **c.	На S1 используйте соответствующую команду show cdp, чтобы определить, сколько пакетов CDP было выданных.**
 ```
@@ -162,17 +182,49 @@ CDP counters :
 
 **Вопрос:**
 **Сколько пакетов имеет выход CDP с момента последнего сброса счетчика?**
-Введите ваш ответ здесь.
+
+***Input: 148***
  
 **d.	Настройте SVI для VLAN 1 на S1 и S2, используя IP-адреса, указанные в таблице адресации выше.** 
 **Настройте шлюз по умолчанию для каждого коммутатора на основе таблицы адресов.**
- 
-**e.	На R1 выполните команду show cdp entry S1 .** 
+```
+S1:
+interface Vlan1
+ ip address 10.22.0.2 255.255.255.0
+!
+ip default-gateway 10.22.0.1
 
+S2:
+interface Vlan1
+ ip address 10.22.0.3 255.255.255.0
+!
+ip default-gateway 10.22.0.1
+``` 
+**e.	На R1 выполните команду show cdp entry S1.** 
+```
+R1#  show cdp entry S1
+
+Device ID: S1
+Entry address(es): 
+  IP address : 10.22.0.2
+Platform: cisco 2960, Capabilities: Switch
+Interface: GigabitEthernet0/0, Port ID (outgoing port): FastEthernet0/2
+Holdtime: 139
+
+Version :
+Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE4, RELEASE SOFTWARE (fc1)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2013 by Cisco Systems, Inc.
+Compiled Wed 26-Jun-13 02:49 by mnguyen
+
+advertisement version: 2
+Duplex: full
+```
 **Вопрос:**
 
 **Какие дополнительные сведения доступны теперь?**
-Введите ваш ответ здесь.
+
+***Device ID,Entry address(es),IP address, Platform: cisco 2960, Capabilities, Switch Interfac, Port ID, Holdtime, Version :***
 
 ``` 
 R1 # show cdp entry  S1 
