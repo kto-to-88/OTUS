@@ -252,6 +252,66 @@ R1(config)#no cdp run
 R1#sh cdp 
 % CDP is not enabled
 ```
+ 
+## Часть 3. Обнаружение сетевых ресурсов с помощью протокола LLDP
+
+**На устройствах Cisco протокол LLDP может быть включен по умолчанию. Воспользуйтесь LLDP, чтобы обнаружить порты, к которым подключены кабели.**
+
+**a.	Введите соответствующую команду lldp, чтобы включить LLDP на всех устройствах в топологии.**
+
+**b.	На S1 выполните соответствующую команду lldp, чтобы предоставить подробную информацию о S2.**
+
+**S1# show lldp entry S2 (CPT не позволяет выполнить данную комманду. Поэтому выполним "show lldp neighbors" )**
+```
+S1# show lldp neighbors 
+
+Capability codes:
+    (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+    (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+Device ID           Local Intf     Hold-time  Capability      Port ID
+S2                  Fa0/1          120        B               Fa0/1
+R1                  Fa0/2          120        R               Gig0/0
+
+Total entries displayed: 2
+```
+***"show lldp neighbors" отобразит соседей и интрефейсы подключения.***
+
+**Вопрос:**
+
+**Что такое chassis ID  для коммутатора S2?**
+
+***Chassis ID это обычно MAC-адрес управляющего интерфейса устройства, его имя или серийный номер***
+ 
+**c.	Соединитесь через консоль на всех устройствах и используйте команды LLDP, необходимые для отображения топологии физической сети только из выходных данных команды show.**
+```
+R1#show lldp neighbors 
+Capability codes:
+    (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+    (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+Device ID           Local Intf     Hold-time  Capability      Port ID
+S1                  Gig0/0         120        B               Fa0/2
+
+Total entries displayed: 1
+
+S2#sh lldp neighbors 
+Capability codes:
+    (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+    (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+Device ID           Local Intf     Hold-time  Capability      Port ID
+S1                  Fa0/1          120        B               Fa0/1
+
+Total entries displayed: 1
+
+S1#show lldp neighbors 
+Capability codes:
+    (R) Router, (B) Bridge, (T) Telephone, (C) DOCSIS Cable Device
+    (W) WLAN Access Point, (P) Repeater, (S) Station, (O) Other
+Device ID           Local Intf     Hold-time  Capability      Port ID
+S2                  Fa0/1          120        B               Fa0/1
+R1                  Fa0/2          120        R               Gig0/0
+
+Total entries displayed: 2
+```
 
 
 
