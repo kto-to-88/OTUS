@@ -57,6 +57,10 @@
 - [StPB-SW10](./config/StPB-SW10)
 
 ### Триада
+-[TRI-R23](./config/TRI-R23)
+-[TRI-R24](./config/TRI-R24)
+-[TRI-R25](./config/TRI-R25)
+-[TRI-R26](./config/TRI-R26)
 
 ### Чукордах
 
