@@ -33,7 +33,18 @@
   ![](./jpg/KIT.PNG)
   ![](./jpg/LAM.PNG)
 
-
+## Конфигурации сетевого оборудования:
+### Москва:
+- [MSK-R12](MSK-R12)
+- [MSK-R13](MSK-R13)
+- [MSK-R14](MSK-R14)
+- [MSK-R15](MSK-R15)
+- [MSK-R19](MSK-R19)
+- [MSK-R20](MSK-R20)
+- [MSK-SW2](MSK-SW2)
+- [MSK-SW3](MSK-SW3)
+- [MSK-SW4](MSK-SW4)
+- [MSK-SW5](MSK-SW5)
 
 
 
