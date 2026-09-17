@@ -13,55 +13,18 @@ hostname R15
 boot-start-marker
 boot-end-marker
 !
-!
-!
 no aaa new-model
 mmi polling-interval 60
 no mmi auto-configure
 no mmi pvc
 mmi snmp-timeout 180
 !
-!
-!
-!
-!
-!
-!
-!
-
-
-!
-!
-!
-!
 ip cef
 no ipv6 cef
 !
 multilink bundle-name authenticated
 !
-!
-!
-!
-!
-!
-!
-!
-!
 redundancy
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
-!
 !
 interface Ethernet0/0
  description "to R13 [e0/2]"
@@ -81,21 +44,10 @@ interface Ethernet0/3
 !
 ip forward-protocol nd
 !
-!
 no ip http server
 no ip http secure-server
 !
-!
-!
-!
 control-plane
-!
-!
-!
-!
-!
-!
-!
 !
 line con 0
  logging synchronous
@@ -103,7 +55,6 @@ line aux 0
 line vty 0 4
  login
  transport input none
-!
 !
 end
 
