@@ -1,4 +1,4 @@
-# Архитектура сети 
+<img width="1031" height="782" alt="image" src="https://github.com/user-attachments/assets/c7c57650-731f-4412-97be-cb119528fbf1" /># Архитектура сети 
 
 ## Проектирование сети
 
@@ -57,18 +57,25 @@
 - [StPB-SW10](./config/StPB-SW10)
 
 ### Триада
--[TRI-R23](./config/TRI-R23)
--[TRI-R24](./config/TRI-R24)
--[TRI-R25](./config/TRI-R25)
--[TRI-R26](./config/TRI-R26)
+- [TRI-R23](./config/TRI-R23)
+- [TRI-R24](./config/TRI-R24)
+- [TRI-R25](./config/TRI-R25)
+- [TRI-R26](./config/TRI-R26)
 
 ### Чукордах
-
+- [CHY-R28](./config/CHY-R28)
+- [CHY-SW29](./config/CHY-SW29)
+- [CHY-VPC30](./config/CHY-VPC30)
+- [CHY-VPC31](./config/CHY-VPC31)
+  
 ### Ламас
+- [LAM-R21](./config/LAM-R21)
 
 ### Киторн
+- [KIT-R22](./config/KIT-R22)
 
 ### Лабытнаги
+- [TRI-R27](./config/LAB-R27)
 
 
 
