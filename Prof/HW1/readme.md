@@ -48,6 +48,24 @@
 - [MOS-VPC1](./config/MOS-VPC1)
 - [MOS-VPC7](./config/MOS-VPC7)
 
+### Санкт-Петербург
+- [StPB-R16](./config/StPB-R16)
+- [StPB-R17](./config/StPB-R17)
+- [StPB-R18](./config/StPB-R18)
+- [StPB-R32](./config/StPB-R32)
+- [StPB-SW9](./config/StPB-SW9)
+- [StPB-SW10](./config/StPB-SW10)
+
+### Триада
+
+### Чукордах
+
+### Ламас
+
+### Киторн
+
+### Лабытнаги
+
 
 
 
