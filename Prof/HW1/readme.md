@@ -35,18 +35,18 @@
 
 ## Конфигурации сетевого оборудования:
 ### Москва:
-- [MOS-R12](MOS-R12)
-- [MOS-R13](MOS-R13)
-- [MOS-R14](MOS-R14)
-- [MOS-R15](MOS-R15)
-- [MOS-R19](MOS-R19)
-- [MOS-R20](MOS-R20)
-- [MOS-SW2](MOS-SW2)
-- [MOS-SW3](MOS-SW3)
-- [MOS-SW4](MOS-SW4)
-- [MOS-SW5](MOS-SW5)
-- [MOS-VPC1](MOS-VPC1)
-- [MOS-VPC7](MOS-VPC7)
+- [MOS-R12](./config/MOS-R12)
+- [MOS-R13](./config/MOS-R13)
+- [MOS-R14](./config/MOS-R14)
+- [MOS-R15](./config/MOS-R15)
+- [MOS-R19](./config/MOS-R19)
+- [MOS-R20](./config/MOS-R20)
+- [MOS-SW2](./config/MOS-SW2)
+- [MOS-SW3](./config/MOS-SW3)
+- [MOS-SW4](./config/MOS-SW4)
+- [MOS-SW5](./config/MOS-SW5)
+- [MOS-VPC1](./config/MOS-VPC1)
+- [MOS-VPC7](./config/MOS-VPC7)
 
 
 
