@@ -35,16 +35,18 @@
 
 ## Конфигурации сетевого оборудования:
 ### Москва:
-- [MSK-R12](MSK-R12)
-- [MSK-R13](MSK-R13)
-- [MSK-R14](MSK-R14)
-- [MSK-R15](MSK-R15)
-- [MSK-R19](MSK-R19)
-- [MSK-R20](MSK-R20)
-- [MSK-SW2](MSK-SW2)
-- [MSK-SW3](MSK-SW3)
-- [MSK-SW4](MSK-SW4)
-- [MSK-SW5](MSK-SW5)
+- [MSK-R12](MOS-R12)
+- [MSK-R13](MOS-R13)
+- [MSK-R14](MOS-R14)
+- [MSK-R15](MOS-R15)
+- [MSK-R19](MOS-R19)
+- [MSK-R20](MOS-R20)
+- [MSK-SW2](MOS-SW2)
+- [MSK-SW3](MOS-SW3)
+- [MSK-SW4](MOS-SW4)
+- [MSK-SW5](MOS-SW5)
+- [MSK-SW5](MOS-VPC1)
+- [MSK-SW5](MOS-VPC7)
 
 
 
