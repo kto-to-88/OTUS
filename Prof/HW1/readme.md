@@ -55,6 +55,8 @@
 - [StPB-R32](./config/StPB-R32)
 - [StPB-SW9](./config/StPB-SW9)
 - [StPB-SW10](./config/StPB-SW10)
+- [StPB-VPC](./config/StPB-VPC)
+- [StPB-VPC8](./config/StPB-VPC8)
 
 ### Триада
 - [TRI-R23](./config/TRI-R23)
