@@ -17,6 +17,7 @@
 
 ***Посредством PBR разделим трафик от подсетей VL30 и VL31 по 2 линкам через R28 до Триады.***
 
+
 ```
 ip access-list standard VL30
  permit 192.168.30.0 0.0.0.255
@@ -43,7 +44,6 @@ route-map PBR permit 20
  set ip next-hop verify-availability 10.0.0.138 20 track 1
 !
 route-map PBR deny 30
-
 ```
 
 
