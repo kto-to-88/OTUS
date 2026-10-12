@@ -89,7 +89,7 @@ ip default-gateway 10.0.0.88
 - [CHY-R28](./config/R28.txt)
 - [CHY-R27](./config/R27.txt)
 - [CHY-SW29](./config/SW29.txt)
-
+- [main sheme](./config/HW2.zip)
 
 
 
