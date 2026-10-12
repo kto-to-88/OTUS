@@ -16,6 +16,8 @@
 ### 1. Настроите политику маршрутизации для сетей офиса.
 
 ***Посредством PBR разделим трафик от подсетей VL30 и VL31 по 2 линкам через R28 до Триады.***
+
+```
 ip access-list standard VL30
  permit 192.168.30.0 0.0.0.255
 ip access-list standard VL31
@@ -42,6 +44,7 @@ route-map PBR permit 20
 !
 route-map PBR deny 30
 
+```
 
 
 
