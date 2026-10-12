@@ -85,7 +85,7 @@ ip default-gateway 10.0.0.88
 
 Дополненные конфигурации:
 - [CHY-R28](./config/R28.txt)
-- [CHY-R27](./config/R27)
+- [CHY-R27](./config/R27.txt)
 
 
 
