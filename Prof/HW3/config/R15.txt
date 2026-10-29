@@ -1,0 +1,172 @@
+R15#sh run
+Building configuration...
+
+Current configuration : 2437 bytes
+!
+! Last configuration change at 16:37:57 UTC Wed Oct 28 2026
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R15
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 15.15.15.15 255.255.255.255
+ ip ospf 1 area 0
+ ipv6 address FC00::15/128
+ ospfv3 2 ipv6 area 0
+!
+interface Ethernet0/0
+ description "to R13 [e0/2]"
+ ip address 10.0.0.8 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 10
+ ipv6 address FC02::4/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 10
+!
+interface Ethernet0/1
+ description "to R12 [e0/3]"
+ ip address 10.0.0.6 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 10
+ ipv6 address FC02::5/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 10
+!
+interface Ethernet0/2
+ description "to R21 [e0/0]"
+ ip address 10.0.0.19 255.255.255.254
+!
+interface Ethernet0/3
+ description "to R20 [e0/0]"
+ ip address 10.0.0.10 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 102
+ ipv6 address FC03::10/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 102
+!
+interface Ethernet1/0
+ description "to R14 [1/0]"
+ ip address 10.0.0.15 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+ ipv6 address FC01::2/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 0
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+router ospfv3 2
+ !
+ address-family ipv6 unicast
+  router-id 15.15.15.15
+  area 10 stub
+  area 102 filter-list prefix 6block_area101 in
+ exit-address-family
+!
+router ospf 1
+ router-id 15.15.15.15
+ area 10 stub
+ area 102 filter-list prefix block_area101 in
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip prefix-list block_area101 seq 5 deny 10.0.0.4/31
+ip prefix-list block_area101 seq 10 permit 0.0.0.0/0 le 32
+!
+!
+ipv6 prefix-list 6block_area101 seq 5 deny FC02::3/128
+ipv6 prefix-list 6block_area101 seq 10 permit ::/0 le 128
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
