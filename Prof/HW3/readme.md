@@ -198,7 +198,9 @@ router ospf 1
 - [R20](./config/R20.txt)
 - [main sheme](./config/OSPFv4v6_unl.zip)
 
+##### 6. План работы и изменения зафиксированы в документации:
 
+![](./jpg/add.png)
 
 
 
