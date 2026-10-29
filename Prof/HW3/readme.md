@@ -27,6 +27,39 @@
 
 ```
 R14:
+interface Loopback0
+ ip address 14.14.14.14 255.255.255.255
+ ip ospf 1 area 0
+ ipv6 address FC00::14/128
+ ospfv3 2 ipv6 area 0
+!
+interface Ethernet0/0
+ description "to R12 (area 10)"
+ ip address 10.0.0.12 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 10
+ ipv6 address FC02::1/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 10
+!
+interface Ethernet0/1
+ description "to R13 (area 10)"
+ ip address 10.0.0.2 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 10
+ ipv6 address FC02::2/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 10
+!
+interface Ethernet0/3
+ description "to R19 (area 101 totally stub)"
+ ip address 10.0.0.4 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 101
+ ipv6 address FC02::3/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 101
+!
 interface Ethernet1/0
  description "to R15 (area 0)"
  ip address 10.0.0.14 255.255.255.254
@@ -50,6 +83,43 @@ router ospf 1
  area 101 stub no-summary
 
 R15
+interface Loopback0
+ ip address 15.15.15.15 255.255.255.255
+ ip ospf 1 area 0
+ ipv6 address FC00::15/128
+ ospfv3 2 ipv6 area 0
+!
+interface Ethernet0/0
+ description "to R13 [e0/2]"
+ ip address 10.0.0.8 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 10
+ ipv6 address FC02::4/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 10
+!
+interface Ethernet0/1
+ description "to R12 [e0/3]"
+ ip address 10.0.0.6 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 10
+ ipv6 address FC02::5/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 10
+!
+interface Ethernet0/2
+ description "to R21 [e0/0]"
+ ip address 10.0.0.19 255.255.255.254
+!
+interface Ethernet0/3
+ description "to R20 [e0/0]"
+ ip address 10.0.0.10 255.255.255.254
+ ip ospf network point-to-point
+ ip ospf 1 area 102
+ ipv6 address FC03::10/128
+ ospfv3 network point-to-point
+ ospfv3 2 ipv6 area 102
+!
 interface Ethernet1/0
  description "to R14 [1/0]"
  ip address 10.0.0.15 255.255.255.254
