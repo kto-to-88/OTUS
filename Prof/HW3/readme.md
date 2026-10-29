@@ -195,7 +195,7 @@ router ospf 1
 - [R14](./config/R14.txt)
 - [R15](./config/R15.txt)
 - [R19](./config/R19.txt)
-- [R](./config/R20.txt)
+- [R20](./config/R20.txt)
 - [main sheme](./config/OSPFv4v6_unl.zip)
 
 
