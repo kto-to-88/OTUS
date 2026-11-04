@@ -1,0 +1,147 @@
+R24#sh run
+Building configuration...
+
+Current configuration : 1717 bytes
+!
+! Last configuration change at 18:01:17 UTC Wed Nov 4 2026
+!
+version 15.4
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R24
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+redundancy
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 24.24.24.24 255.255.255.255
+ ip router isis 1
+ ipv6 address FC00::24/128
+ ipv6 router isis 1
+!
+interface Ethernet0/0
+ description "to R21 [e0/2]"
+ ip address 10.0.0.40 255.255.255.254
+!
+interface Ethernet0/1
+ description "to R26 [e0/0]"
+ ip address 10.0.0.54 255.255.255.254
+ ip router isis 1
+ ipv6 address FC01:0:0:54::/127
+ ipv6 router isis 1
+ isis network point-to-point
+!
+interface Ethernet0/2
+ description "to R23 [e0/2]"
+ ip address 10.0.0.51 255.255.255.254
+ ip router isis 1
+ ipv6 address FC01:0:0:50::1/127
+ ipv6 router isis 1
+ isis network point-to-point
+!
+interface Ethernet0/3
+ description "to R18 [e0/2]"
+ ip address 10.0.0.66 255.255.255.254
+!
+interface Ethernet1/0
+ no ip address
+ shutdown
+!
+interface Ethernet1/1
+ no ip address
+ shutdown
+!
+interface Ethernet1/2
+ no ip address
+ shutdown
+!
+interface Ethernet1/3
+ no ip address
+ shutdown
+!
+router isis 1
+ net 49.0024.0000.0024.00
+ is-type level-2-only
+ metric-style wide
+ log-adjacency-changes
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+!
+end
