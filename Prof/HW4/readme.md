@@ -100,7 +100,53 @@ router isis 1
 end
 ```
 
+##### 2. R24 находится в зоне 24
+***Настроим EIGRP на R24 в соответствии с заданием:***
 
+```
+R24:
+R24#sh run
+!
+hostname R24
+!
+boot-start-marker
+boot-end-marker
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+interface Loopback0
+ ip address 24.24.24.24 255.255.255.255
+ ip router isis 1
+ ipv6 address FC::24/128
+ ipv6 address FC00::24/128
+ ipv6 router isis 1
+!
+interface Ethernet0/1
+ description "to R26 [e0/0]"
+ ip address 10.0.0.54 255.255.255.254
+ ip router isis 1
+ ipv6 address FC01:0:0:54::/127
+ ipv6 router isis 1
+ isis network point-to-point
+!
+interface Ethernet0/2
+ description "to R23 [e0/2]"
+ ip address 10.0.0.51 255.255.255.254
+ ip router isis 1
+ ipv6 address FC01:0:0:50::1/127
+ ipv6 router isis 1
+ isis network point-to-point
+!
+router isis 1
+ net 49.0024.0000.0024.00
+ is-type level-2-only - представляет только сосдество L2. Находится в транзитной зоне.
+ metric-style wide - расширенный формат метрик для dual‑stack (IPv4+IPv6)
+ log-adjacency-changes
+!
+end
+```
 
 
 
