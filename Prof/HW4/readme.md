@@ -147,8 +147,49 @@ router isis 1
 !
 end
 ```
-
-
+##### 3. R26 находится в зоне 26
+***Настроим EIGRP на R24 в соответствии с заданием:***
+***Настройки аналогичны R24***
+```
+R26:
+R26#sh run
+!
+hostname R26
+!
+ip cef
+ipv6 unicast-routing
+ipv6 cef
+!
+interface Loopback0
+ ip address 26.26.26.26 255.255.255.255
+ ip router isis 1
+ ipv6 address FC00::26/128
+ ipv6 router isis 1
+!
+interface Ethernet0/0
+ description "to R24 [e0/1]"
+ ip address 10.0.0.55 255.255.255.254
+ ip router isis 1
+ ipv6 address FC01:0:0:54::1/127
+ ipv6 router isis 1
+ isis network point-to-point
+!
+interface Ethernet0/2
+ description "to R25 [e0/2]"
+ ip address 10.0.0.57 255.255.255.254
+ ip router isis 1
+ ipv6 address FC01:0:0:56::1/127
+ ipv6 router isis 1
+ isis network point-to-point
+!
+router isis 1
+ net 49.0026.0000.0026.00
+ is-type level-2-only
+ metric-style wide
+ log-adjacency-changes
+!
+end
+```
 
 
 
