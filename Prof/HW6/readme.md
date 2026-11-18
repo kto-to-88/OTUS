@@ -24,14 +24,14 @@
 
 ```
 R14:
-(config)#router bgp 1001
-(config-router)#neighbor 10.0.0.26 remote-as 101
+(config)#router bgp 1001 - зададим номер АС
+(config-router)#neighbor 10.0.0.26 remote-as 101 - зададим ip соседа и его номер АС
 
 R22:
 (config)#router bgp 101
 (config-router)#neighbor 10.0.0.27 remote-as 1001
 (config-router)#address-family ipv4
-(config-router-af)#redistribute connected
+(config-router-af)#redistribute connected - передадим известные маршруты соседу
 
 R15:
 (config)#router bgp 1001
@@ -41,6 +41,9 @@ R21:
 (config)#router bgp 301
 (config-router)#neighbor 10.0.0.19 remote-as 1001
 ```
+
+***Далее все настройки аналогичны.***
+
 ##### 2. Настроите eBGP между провайдерами Киторн и Ламас.
 ***Выполним настройку в соответствии с пунктом 2:***
 
@@ -86,11 +89,13 @@ R18:
 (config-router)#neighbor 10.0.0.66 remote-as 520
 ```
 
+##### 5. Организуете IP доступность между пограничным роутерами офисами Москва и С.-Петербург.
 
+***Доступность организована посредством настроек, выполненных выше в п.1-4.***
 
+***Пропингуем маршрутизаторы R14 и R15 с маршрутизатора R18. Результат сетевой связности представлен ниже:***
 
-
-
+![](./jpg/ping.PNG)
 
 
 
