@@ -19,7 +19,25 @@
 
 ![](./jpg/BGP.PNG)
 
+##### 1. Настроите eBGP между офисом Москва и двумя провайдерами - Киторн и Ламас.
+***Выполним настройку в соответствии с пунктом 1:***
 
+```
+R14:
+(config)#router bgp 1001
+(config-router)#neighbor 10.17.1.1 remote-as 101
+R22:
+(config)#router bgp 101
+(config-router)#neighbor 10.17.1.4 remote-as 1001
+(config-router)#address-family ipv4
+(config-router-af)#redistribute connected
+R15:
+(config)#router bgp 1001
+(config-router)#neighbor 10.18.1.1 remote-as 301
+R21:
+(config)#router bgp 301
+(config-router)#neighbor 10.18.1.2 remote-as 1001
+```
 
 
 
