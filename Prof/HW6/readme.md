@@ -97,7 +97,14 @@ R18:
 
 ![](./jpg/ping.PNG)
 
-
+***Дополненные конфигурации устройств:***
+- [R14](./config/R14.txt)
+- [R15](./config/R15.txt)
+- [R22](./config/R22.txt)
+- [R21](./config/R21.txt)
+- [R24](./config/R24.txt)
+- [R26](./config/R26.txt)
+- [R18](./config/R18.txt)
 
 
 
